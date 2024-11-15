@@ -12,14 +12,8 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
   const { 
     user, 
     loading, 
-    totpUri,
-
   } = useAuth();
 
-  useEffect(() => {
-    // console.log('-----> totpUri:', totpUri);
-    
-  } , [totpUri])
   
   return (
     <>

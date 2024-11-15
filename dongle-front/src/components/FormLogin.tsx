@@ -81,7 +81,7 @@ const FormLogin = () => {
         <div className="w-72 lg:w-96 lg:p-5">
           <div className="flex flex-col">
             <div className="flex justify-center">
-              <Link href="/"><Image src='/airelite-logo-white.png' height={60} width={300} alt='AirElite' /></Link>
+              <Link href="/"><Image src='/dongle-logo-white.png' height={60} width={300} alt='Dongle' /></Link>
             </div>
             <div>
               <div>

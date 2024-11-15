@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth'
 import { app } from '@/config/firebase'
 import Loading from '@/components/UI/Loading';
+import Auth from '@/components/Auth';
 
 const googleProvider = new GoogleAuthProvider()
 export const AuthContext = createContext({})
@@ -127,7 +128,6 @@ export const AuthContextProvider = ({
 
   useEffect(() => {
     const handleStatusChange = () => {
-      // console.log("REFRESHING TOKEN")
       getToken()
     }
     window.addEventListener("online", handleStatusChange)
@@ -163,8 +163,9 @@ export const AuthContextProvider = ({
         token,
         admin,
       }}
-    >
-      {loading ? <Loading /> : children}
+      ><Auth>
+        {loading ? <Loading /> : children}
+      </Auth>
     </AuthContext.Provider>
   )
 }
