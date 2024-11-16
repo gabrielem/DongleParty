@@ -73,8 +73,8 @@ export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResp
         // const userRecord = await admin.auth().getUserByEmail(decodedToken?.email);
         // const hasMFA = userRecord?.multiFactor?.enrolledFactors?.length
   
-        req.authId = decodedToken.uid
-        req.uid = decodedToken.uid
+        req.authId = decodedToken?.uid
+        req.uid = decodedToken?.uid
         req.user = decodedToken
         
         const userData = {
