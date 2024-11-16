@@ -43,6 +43,10 @@ const api = {
     async setMessage (payload: any, token: string | null | undefined) {
         return buildTheRequest({method: 'post', url: '/setMessage', payload, token})
     },
+    // getHistory
+    async getHistory (payload: any, token: string | null | undefined) {
+        return buildTheRequest({method: 'post', url: '/getHistory', payload, token})
+    },
     
     
 }

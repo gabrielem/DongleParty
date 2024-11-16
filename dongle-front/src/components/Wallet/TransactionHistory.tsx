@@ -10,7 +10,7 @@ interface Transaction {
   to?: string;
 }
 
-const TransactionHistory = () => {
+const TransactionHistory = ({history}: any) => {
   // Temporary mock data
   const transactions: Transaction[] = [
     {
