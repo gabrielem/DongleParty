@@ -57,9 +57,13 @@ export const AuthContextProvider = ({
     try {
       const auth = getAuth()
       const result = await signInWithPopup(auth, provider)
+      console.log('-->signinWithProvider', { result });
+      
       await getUser()
       return { user: result.user }
     } catch (error) {
+      console.log('-->signinWithProvider', { error });
+      
       return { error }
     } finally {
       setLoading(false)

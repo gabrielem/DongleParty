@@ -12,12 +12,18 @@ import { FaTwitter } from "react-icons/fa"
 
 
 const TwitterLogin = () => {
-  const { signin, forgotPass } = useAuth()
+  const { signinTwitter } = useAuth()
   
-  
+  const handleClick = async () => {
+    try {
+      await signinTwitter()
+    } catch (error) {
+      console.log('error:', error);
+    }  
+  }
   return (
     <div>
-        <button className="rounded-md bg-sky-500 text-white p-1">
+        <button className="rounded-md bg-sky-500 text-white p-1" onClick={handleClick}>
             <FaTwitter />Enter
         </button>
     </div>
