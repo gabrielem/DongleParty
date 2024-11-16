@@ -1,6 +1,8 @@
 'use client'
 import AgentChat from "@/components/AgentChat"
 import DepositOnWallet from "@/components/DepositOnWallet"
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
 import Loading from "@/components/UI/Loading"
 // components/AgentPage.tsx
 
@@ -36,6 +38,7 @@ export default function AgentPage({params}: any): JSX.Element {
     const myPartecipation = challenge?.participants?.[user?.uid]
     return (
       <div className="">
+        <Header />
         {myPartecipation 
           ? (<>
             {myPartecipation?.balance
@@ -46,6 +49,8 @@ export default function AgentPage({params}: any): JSX.Element {
           : <div><Loading /></div>
         }
         AgentPage
+
+        <Footer />
       </div>
     )
   }

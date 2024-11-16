@@ -1,8 +1,8 @@
 'use client'
 
-const Loading = () => {
+const Loading = ({heightType="h-screen"}: any) => {
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className={"flex items-center justify-center " + heightType}>
       <span className="loading loading-ring loading-lg"></span>
     </div>
   )
