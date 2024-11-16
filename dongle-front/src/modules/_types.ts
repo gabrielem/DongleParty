@@ -70,6 +70,42 @@ interface ChallengeCardInfoProps {
   challenge: ChallengeDetail;
 }
 
+interface TokenAction {
+  chainId: string;
+  address: string;
+  standard: string;
+  fromAddress: string;
+  toAddress: string;
+  amount: string;
+  direction: 'In' | 'Out' | 'On';
+}
+
+interface TransactionDetails {
+  txHash: string;
+  chainId: number;
+  blockNumber: number;
+  blockTimeSec: number;
+  status: 'completed' | 'pending' | 'failed';
+  type: string;
+  tokenActions: TokenAction[];
+  fromAddress: string;
+  toAddress: string;
+  orderInBlock: number;
+  nonce: number;
+  feeInWei: string;
+}
+
+interface Transaction {
+  timeMs: number;
+  address: string;
+  type: number;
+  rating: string;
+  direction: 'in' | 'out';
+  details: TransactionDetails;
+  id: string;
+  eventOrderInTransaction: number;
+}
+
 export type {
   FirebaseConfig,
   IFormLogin,
@@ -79,4 +115,7 @@ export type {
   Participant,
   ChallengeDetail,
   ChallengeCardInfoProps,
+  Transaction,
+  TransactionDetails,
+  TokenAction,
 };
