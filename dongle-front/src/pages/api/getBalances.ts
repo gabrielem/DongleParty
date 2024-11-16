@@ -46,7 +46,7 @@ async function getPrices(addresses: any, chain: any) {
     const response = await axios.get(url, config);
     // console.log(response.data);
     return response.data
-    
+
   } catch (error) {
     console.error(error);
   }
@@ -87,7 +87,7 @@ async function getBalancesHandler(req: any, res: any) {
     const chain = req?.body.chain || '8453';
     //const address = req?.body?.address
     // const chain = req.query.chain || '42161';
-    const address = req.query.address || '0xFB3bc2F5EDB94516BcbFaD47931BF04a057d0e70'
+    const address = req.body.address || '0x30f87e92c06DC163Be8baF686c021a1Bc1FF6618'
 
     if (!address) {
         return res.status(400).json({ error: 'Missing required fields, address are required' });
