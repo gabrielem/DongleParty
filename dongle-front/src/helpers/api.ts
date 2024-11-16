@@ -25,7 +25,7 @@ const buildTheRequest = async ({method, url, payload, token}: any) => {
     }
 }
 const api = {
-    async getChallenges (payload: any, token: string | null | undefined) {
+    async getChallenges (token: string | null | undefined) {
         return buildTheRequest({method: 'get', url: '/getChallenges', token})
     },
     async setChallenge (payload: any, token: string | null | undefined) {
