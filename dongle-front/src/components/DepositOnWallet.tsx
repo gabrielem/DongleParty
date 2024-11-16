@@ -5,6 +5,9 @@ import { IoMdInformationCircle } from "react-icons/io";
 import Button from "@/components/UI/Button";
 import { useAuth } from "@/context/AuthContext";
 import { Challenge } from "@/modules/_types";
+import { toast } from "react-toastify";
+import api from "@/helpers/api";
+import Loading from "./UI/Loading";
 
 interface DepositOnWalletProps {
   challenge: Challenge;
@@ -15,8 +18,44 @@ interface DepositOnWalletProps {
 }
 
 export default function DepositOnWallet({ challenge, myPartecipation }: DepositOnWalletProps) {
-  const { wallet } = useAuth();
+  const { wallet, token } = useAuth();
   const [qrCodeValue, setQrCodeValue] = useState<string>("");
+  const [loading, setLoading] = useState(true)
+
+
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        const result = await api.getBalances({address: wallet}); 
+        // console.log('->result', result);
+
+        const targetAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+        const adrBalance = result.find((item: any) => item.address === targetAddress);
+        console.log('->adrBalance', adrBalance);
+        if (Number(adrBalance.balance) > 0) {
+          toast.success('Deposit received');
+          await api.setBalance({challengeId: challenge.id, balance: adrBalance.balance}, token);
+          setLoading(false);
+        }
+      } catch (err: any) {
+        toast.error(typeof err === "string" ? err : err.message || 'Error fetching balance');
+      }
+    };
+
+    const startPolling = () => {
+      fetchBalance(); 
+      const timeout = setTimeout(startPolling, 3000);  
+      return () => clearTimeout(timeout); 
+    };
+
+    const cleanup = startPolling();
+
+    return () => {
+      cleanup(); 
+    };
+  }, []);
+
 
   useEffect(() => {
     setQrCodeValue(wallet);
@@ -26,6 +65,7 @@ export default function DepositOnWallet({ challenge, myPartecipation }: DepositO
     try {
       await navigator.clipboard.writeText(qrCodeValue);
       // You could add a toast notification here
+      toast.success('Address copied to clipboard');
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -86,6 +126,10 @@ export default function DepositOnWallet({ challenge, myPartecipation }: DepositO
           <p className="text-sm">
             Please only send {challenge.startAmount} ETH tokens on BASE network.
           </p>
+        </div>
+
+        <div>
+          {loading && <Loading heightType="h-full" />}
         </div>
       </div>
     </div>
