@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import api from '@/helpers/api'
 import { toast } from 'react-toastify'
 
-const AddChallengeForm = () => {
+const AddChallengeForm = ({successCb}: any) => {
   const { token } = useAuth()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -47,19 +47,19 @@ const AddChallengeForm = () => {
         throw ('The maximum number of participants must be at least 1.')
       }
 
-      await api.setChallenge(challenge, token)
+      const result = await api.setChallenge(challenge, token)
       setSuccess(true)
+      successCb(result)
+
       setChallenge({
         name: '',
         startAmount: 0,
         targetAmount: 0,
         maxParticipant: 1
       })
-
       toast.success('Challenge successfuly created!')
-
     } catch (err: any) {
-      setError(err.message || 'Error creating challenge')
+      toast.error(typeof err === "string" ? err : err.message || 'Error creating challenge')
     } finally {
       setLoading(false)
     }
@@ -69,18 +69,7 @@ const AddChallengeForm = () => {
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-black">
       <h1 className="text-2xl font-bold mb-6 text-center">Add a new Challenge</h1>
       
-      {error && (
-        <div className="alert alert-error mb-4">
-          <span>{error}</span>
-        </div>
-      )}
       
-      {success && (
-        <div className="alert alert-success mb-4">
-          <span>Challenge created!</span>
-        </div>
-      )}
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="label">
@@ -145,7 +134,7 @@ const AddChallengeForm = () => {
           loading={loading}
           className=" bg-green-600 text-white hover:bg-green-700 w-full p-2 rounded-md"
         >
-          Crea Challenge!
+          Create Challenge!
         </Button>
       </form>
     </div>
