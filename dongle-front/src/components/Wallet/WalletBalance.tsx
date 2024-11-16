@@ -19,12 +19,14 @@ const WalletBalance = () => {
       
       try {
         const result = await api.getBalances({ wallet });
-        // Filter out tokens with zero balance and sort by balance
+        // Filter out tokens with zero balance and sort by USD value
         const filteredBalances = result
           .filter((token: TokenBalance) => parseFloat(token.balance) > 0)
-          .sort((a: TokenBalance, b: TokenBalance) => 
-            parseFloat(b.balance) - parseFloat(a.balance)
-          );
+          .sort((a: TokenBalance, b: TokenBalance) => {
+            const aValue = parseFloat(formatBalance(a.balance, a.decimals)) * parseFloat(a.price);
+            const bValue = parseFloat(formatBalance(b.balance, b.decimals)) * parseFloat(b.price);
+            return bValue - aValue;
+          });
         setBalances(filteredBalances);
       } catch (error: any) {
         toast.error(typeof error === "string" ? error : error.message || 'Error fetching balances');
@@ -36,12 +38,12 @@ const WalletBalance = () => {
     fetchBalances();
   }, [wallet]);
 
-
-  // For now, we'll just show the balance as value since we don't have price data
-  const totalValue = balances.reduce((sum, token) => 
-    sum + parseFloat(formatBalance(token.balance, token.decimals)), 
-    0
-  );
+  // Calculate total value in USD
+  const totalValue = balances.reduce((sum, token) => {
+    const tokenBalance = parseFloat(formatBalance(token.balance, token.decimals));
+    const tokenPrice = parseFloat(token.price);
+    return sum + (tokenBalance * tokenPrice);
+  }, 0);
 
   if (loading) {
     return (
@@ -76,7 +78,7 @@ const WalletBalance = () => {
           </button>
         </div>
         <div className="text-2xl font-bold text-purple-600">
-          {hideBalances ? "****" : totalValue.toFixed(4)}
+          {hideBalances ? "****" : '$' + totalValue.toFixed(4)}
         </div>
       </div>
 

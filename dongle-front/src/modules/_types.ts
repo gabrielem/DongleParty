@@ -109,6 +109,7 @@ interface Transaction {
 interface TokenBalance {
   address: string;
   balance: string;
+  price: string;
   chainId: number;
   decimals: number;
   name: string;
