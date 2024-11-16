@@ -31,12 +31,15 @@ async function joinChallengeHandler(req: any, res: any) {
     if(!wallet) throw "wallet not found"
     const wallet_address = wallet?.wallet?.default_address_id
 
-    const result = await admin.database().ref(`challenges/lists/${challengeId}/participants/${uid}`).set({
+    await admin.database().ref(`challenges/lists/${challengeId}/participants/${uid}`).set({
         uid,
         joinedAt: Date.now(),
         wallet_address,
         twitterHandler
     })
+
+    await admin.database().ref(`challenges/participants/users/${uid}`).set(challengeId)
+    await admin.database().ref(`challenges/participants/challenge/${challengeId}`).set(uid)
 
     let challengeReuslt = (await admin.database().ref(`challenges/lists/${challengeId}`).once('value')).val()
     
