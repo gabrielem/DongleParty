@@ -1,8 +1,6 @@
 from cdp import Wallet
 from cdp_langchain.tools import CdpTool
-from services.cdp_service import get_cdp_wallet
 from pydantic import BaseModel, Field
-from .ABIs import ERC20_ABI
 
 APPROVE_TOKEN_PROMPT = """
 This tool approves an ERC-20 token allowance for a specific spender to MAX_INT. 

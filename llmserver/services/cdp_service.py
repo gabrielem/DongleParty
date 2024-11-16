@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+webhookURL = os.getenv("WALLET_WEBHOOK_URL")
+
 
 def get_or_create_wallet(user_id: str):
     """Create a wallet for a user."""
@@ -31,18 +33,7 @@ def get_or_create_wallet(user_id: str):
     wallet_data = agentkit.export_wallet()
     wallet_address = save_wallet_data(user_id, wallet_data, network_id)
 
+    if webhookURL:
+        wallet = Wallet.import_wallet(wallet_data)
+        wallet.create_webhook(f"{webhookURL}/{user_id}/wallet")
     return [wallet_data, wallet_address]
-
-
-def get_cdp_wallet(wallet_address: str, network_id: str = "base-mainnet"):
-    # Fetch wallet data from Firebase
-    wallet_data = get_wallet_data_by_address(wallet_address)
-
-    if not wallet_data:
-        return None
-
-    wallet_data_json = {"cdp_wallet_data": wallet_data}
-    wallet_data = WalletData.from_dict(json.loads(wallet_data_json))
-    wallet = Wallet.import_data(wallet_data, network_id)
-
-    return wallet

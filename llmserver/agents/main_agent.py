@@ -7,6 +7,7 @@ from langchain_core.messages import HumanMessage
 from services.firebase_service import get_wallet_data_by_user
 
 from lib.tools.approve_token import buildApproveTokenTool
+from lib.tools.analyse_token import buildAnalyseTokenTool
 
 
 def initialize_agent(user_id: str):
@@ -25,8 +26,7 @@ def initialize_agent(user_id: str):
     cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(agentkit)
     default_tools = cdp_toolkit.get_tools()
     approval_tool = buildApproveTokenTool(agentkit)
-    for tool in default_tools:
-        print(tool.name)
+    analyse_token_tool = buildAnalyseTokenTool(agentkit)
 
     # Only take tools with names [transfer, get_wallet_details,get_balance,trade]
     tools = [
@@ -35,6 +35,7 @@ def initialize_agent(user_id: str):
         if tool.name in ["transfer", "get_wallet_details", "get_balance", "trade"]
     ]
     tools.append(approval_tool)
+    tools.append(analyse_token_tool)
 
     print("Enabled tools:")
     for tool in tools:
