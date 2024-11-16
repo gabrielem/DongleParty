@@ -49,6 +49,7 @@ export const AuthContextProvider = ({
     setLoading(true)
     let u = await getAuth(app).currentUser
     setUser(u || null)
+    await getToken()
     setLoading(false)
     return u || null
   }
