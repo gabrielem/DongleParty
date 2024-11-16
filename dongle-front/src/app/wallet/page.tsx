@@ -20,7 +20,7 @@ export default function WalletPage() {
     const getHistory = async () => {
       setLoadingHistory(true)
       try {
-        const result = await api.getHistory({wallet},token)
+        const result = await api.getHistory({wallet: "0x6d279Ae7Bd044870C59D24FaE54b0d271fB823F1"}, token)
         console.log('--> getHistory', { result });
         setHistory(result?.items)
         
@@ -39,7 +39,7 @@ export default function WalletPage() {
         <h1 className="text-xl font-semibold text-gray-900 mb-4">Wallet</h1>
         <div className="space-y-4">
           <WalletBalance />
-          <TransactionHistory history={history} />
+          <TransactionHistory transactions={history} />
         </div>
       </div>
       <Footer />
