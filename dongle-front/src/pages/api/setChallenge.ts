@@ -3,6 +3,8 @@ import admin from '@/config/firebase-admin'
 import { withAuth } from "@/middlewares/middleware";
 
 async function setChallengeHandler(req: any, res: any) {
+  console.log('--> setChallengeHandler');
+  
   try {
 
     const challenge = req.body

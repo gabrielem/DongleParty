@@ -9,8 +9,6 @@ import { toast } from 'react-toastify'
 const AddChallengeForm = ({successCb}: any) => {
   const { token } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
   
   const [challenge, setChallenge] = useState({
     name: '',
@@ -20,6 +18,8 @@ const AddChallengeForm = ({successCb}: any) => {
   })
 
   const handleChange = (e: any) => {
+    console.log('handleChange', e.target);
+    
     const { name, value } = e.target
     setChallenge(prev => ({
       ...prev,
@@ -28,9 +28,10 @@ const AddChallengeForm = ({successCb}: any) => {
   }
 
   const handleSubmit = async (e: any) => {
+    console.log('handleSubmit', token);
+    
     e.preventDefault()
     setLoading(true)
-    setError('')
     
     try {
       // Validazione
@@ -48,8 +49,7 @@ const AddChallengeForm = ({successCb}: any) => {
       }
 
       const result = await api.setChallenge(challenge, token)
-      setSuccess(true)
-      successCb(result)
+      if(successCb) successCb(result)
 
       setChallenge({
         name: '',
@@ -67,8 +67,8 @@ const AddChallengeForm = ({successCb}: any) => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-black">
+      !!!
       <h1 className="text-2xl font-bold mb-6 text-center">Add a new Challenge</h1>
-      
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -133,6 +133,7 @@ const AddChallengeForm = ({successCb}: any) => {
           type="submit"
           loading={loading}
           className=" bg-green-600 text-white hover:bg-green-700 w-full p-2 rounded-md"
+          onClick={handleSubmit}
         >
           Create Challenge!
         </Button>

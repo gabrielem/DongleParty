@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import 'react-toastify/dist/ReactToastify.css'
 import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthContext";
 import {ToastContainer, Slide} from 'react-toastify'
