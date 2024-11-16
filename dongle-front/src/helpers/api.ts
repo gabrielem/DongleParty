@@ -47,6 +47,14 @@ const api = {
     async getHistory (payload: any, token: string | null | undefined) {
         return buildTheRequest({method: 'post', url: '/getHistory', payload, token})
     },
+    // getBalances
+    async getBalances (payload: any) {
+        return buildTheRequest({method: 'post', url: '/getBalances', payload})
+    },
+    // setBalance   
+    async setBalance (payload: any, token: string | null | undefined) {
+        return buildTheRequest({method: 'post', url: '/setBalance', payload, token})
+    },
     
     
 }
