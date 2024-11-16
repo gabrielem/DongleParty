@@ -1,8 +1,9 @@
 // Auth
 import { useAuth } from '@/context/AuthContext';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import Loading from './UI/Loading';
-import FormLogin from './FormLogin';
+// import FormLogin from './FormLogin';
+import TwitterLogin from './TwitterLogin';
 
 interface AuthProps {
   children: ReactNode;
@@ -22,7 +23,7 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
       ) : (
         <>
             {!user
-                ? <FormLogin />
+                ? <TwitterLogin />
                 : children
             }
         </>
