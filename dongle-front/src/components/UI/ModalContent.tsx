@@ -9,6 +9,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
   handleShow
 }) => {
   
+  // console.log('ModalContent', { handleShow })
+  
   return (
     <ModalContentBox overlayClassName={overlayClassName} modalClassName={modalClassName} handleShow={handleShow}>
       {children}
