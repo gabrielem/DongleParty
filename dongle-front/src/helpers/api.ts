@@ -1,5 +1,5 @@
 import { getErrorMessage } from '@/utils/utils'
-import axios, { AxiosInstance, AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const baseURL = '/api/'
 const apiClient: any = axios.create({ baseURL })
