@@ -1,6 +1,8 @@
-// components/ChallengeList.jsx
-export default function ChallengeList() {
-  const challenges = [
+// components/ChallengeList.tsx
+import { Challenge } from '@/types'
+
+export default function ChallengeList(): JSX.Element {
+  const challenges: Challenge[] = [
     {
       id: 1,
       startAmount: 10,
@@ -21,7 +23,11 @@ export default function ChallengeList() {
   )
 }
 
-function ChallengeCard({ challenge }) {
+interface ChallengeCardProps {
+  challenge: Challenge;
+}
+
+function ChallengeCard({ challenge }: ChallengeCardProps): JSX.Element {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-2">

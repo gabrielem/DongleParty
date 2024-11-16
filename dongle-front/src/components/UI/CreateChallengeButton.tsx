@@ -1,5 +1,9 @@
-// components/CreateChallengeButton.jsx
-export default function CreateChallengeButton({ onClick }) {
+// components/CreateChallengeButton.tsx
+interface CreateChallengeButtonProps {
+  onClick: () => void;
+}
+
+export default function CreateChallengeButton({ onClick }: CreateChallengeButtonProps): JSX.Element {
   return (
     <button
       onClick={onClick}
