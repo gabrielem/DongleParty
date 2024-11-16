@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthContext";
+import {ToastContainer, Slide} from 'react-toastify'
+import { ConfirmProvider } from "@/context/ConfirmContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,9 +31,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthContextProvider>
-          {children}
-        </AuthContextProvider>
+        <ConfirmProvider>
+          <ToastContainer
+              position="bottom-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop
+              // closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable={false}
+              pauseOnHover
+              transition={Slide}
+            />
+          <AuthContextProvider>
+            {children}
+          </AuthContextProvider>
+        </ConfirmProvider>
       </body>
     </html>
   );
