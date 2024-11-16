@@ -35,7 +35,7 @@ def get_wallet_data_by_user(user_id: str):
     """Retrieve wallet data for a specific userId."""
     doc = ref.child("user_id").child(user_id).get()
     if doc:
-        return doc.get("wallet")
+        return json.dumps(doc.get("wallet"))
     return None
 
 
@@ -43,5 +43,5 @@ def get_wallet_data_by_address(wallet_address: str):
     """Retrieve wallet data for a specific wallet address."""
     doc = ref.child("wallet_address").child(wallet_address).get()
     if doc:
-        return doc.get("wallet")
+        return json.dumps(doc.get("wallet"))
     return None
