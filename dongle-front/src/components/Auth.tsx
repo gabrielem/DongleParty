@@ -15,6 +15,7 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
     loading, 
   } = useAuth();
 
+  console.log('user:', user);
   
   return (
     <>
