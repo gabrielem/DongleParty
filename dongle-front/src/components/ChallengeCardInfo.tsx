@@ -60,7 +60,7 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
           </div>
         </div>
 
-        {/* Participants Table - Simplified to 2 columns */}
+        {/* Participants Table */}
         <div
           className="bg-white rounded-lg shadow-sm overflow-hidden flex-1"
           style={{ minHeight: "calc(70vh - 250px)" }}
@@ -80,28 +80,33 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                   </th>
                 </tr>
               </thead>
-              {challenge.participants.length > 0 ? (
+              {Object.keys(challenge.participants).length > 0 ? (
                 <tbody className="divide-y divide-gray-200">
-                  {challenge.participants.map((participant) => (
-                    <tr
-                      key={participant.twitterHandle}
-                      className="hover:bg-gray-50"
-                    >
-                      <td className="px-3 py-2 text-sm border-r border-gray-200">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-purple-600 min-w-[24px]">
-                            {getOrdinal(participant.balance)}
-                          </span>
-                          <span className="text-gray-600">
-                            @{participant.twitterHandle}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-3 py-2 text-sm text-gray-900 text-right font-medium">
-                        ${participant.holdings}
-                      </td>
-                    </tr>
-                  ))}
+                  {Object.entries(challenge.participants)
+                    .sort((a, b) => {
+                      // Sort by balance if available, otherwise by join date
+                      const balanceA = a[1].balance || 0;
+                      const balanceB = b[1].balance || 0;
+                      if (balanceA !== balanceB) return balanceB - balanceA;
+                      return b[1].joinedAt - a[1].joinedAt;
+                    })
+                    .map(([userId, participant], index) => (
+                      <tr key={userId} className="hover:bg-gray-50">
+                        <td className="px-3 py-2 text-sm border-r border-gray-200">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-purple-600 min-w-[24px]">
+                              {getOrdinal(index + 1)}
+                            </span>
+                            <span className="text-gray-600">
+                              @{participant.twitterHandler}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-3 py-2 text-sm text-gray-900 text-right font-medium">
+                          ${participant.balance?.toFixed(2) || "0.00"}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               ) : (
                 <tbody>
@@ -122,31 +127,33 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
 
       {/* Action Button */}
       <div className="p-3 bg-white border-t border-gray-200">
-        {myChallenge
-          ? <>
-            {myChallenge === challenge.id
-              ? <Link
+        {myChallenge ? (
+          <>
+            {myChallenge === challenge.id ? (
+              <Link
                 href={`/agent/${challenge.id}`}
                 className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
               >
                 {challenge?.participants?.[user?.uid]?.balance
-                      ? "Go to Agent AI"
-                      : "Go to Wallet"}
+                  ? "Go to Agent AI"
+                  : "Go to Wallet"}
               </Link>
-              : <>
+            ) : (
+              <>
                 <div className="text-center text-black p-1">
                   You can join only one Challenge at a time!!
                 </div>
-              {/* <Link
+                {/* <Link
                 href={`/agent/${myChallenge}`}
                 className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
               >
                 Go to My Agent
               </Link> */}
               </>
-            }
+            )}
           </>
-          : <>
+        ) : (
+          <>
             {
               <Link
                 href={`/agent/${challenge.id}`}
@@ -162,11 +169,9 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                   </>
                 )}
               </Link>
-            }  
+            }
           </>
-
-        }
-        
+        )}
       </div>
     </div>
   );

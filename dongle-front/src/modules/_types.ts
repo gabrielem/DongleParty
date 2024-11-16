@@ -46,9 +46,15 @@ interface Challenge {
 }
 
 interface Participant {
-  twitterHandle: string;
-  balance: number;
-  holdings?: number;
+  joinedAt: number;
+  twitterHandler: string;
+  uid: string;
+  wallet_address: string;
+  balance?: number; // Add if available
+}
+
+interface ParticipantsMap {
+  [key: string]: Participant;
 }
 
 interface ChallengeDetail {
@@ -57,9 +63,10 @@ interface ChallengeDetail {
   prize: number;
   startAmount: number;
   targetAmount: number;
-  participants: Participant[];
+  participants: ParticipantsMap;
   hasJoined?: boolean;
 }
+
 interface ChallengeCardData extends Challenge {
   id: number;
   participants?: Participant[];
