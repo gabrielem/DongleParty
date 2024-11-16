@@ -70,7 +70,7 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
       </ModalContent>
 
       <div
-        className="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+        className="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow cursor-pointer"
         onClick={() => setShow(true)}
       >
         <div className="flex justify-between items-center mb-2">
@@ -93,12 +93,12 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
           </div>
           <div className="flex justify-between w-full">
             <div className="text-sm font-medium text-purple-600">Active!</div>
-            <button
+            {/* <button
               className="px-4 py-1 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
               onClick={handleJoinClick}
             >
               Join
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
