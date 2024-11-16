@@ -60,3 +60,26 @@ export const formatTimestampForMessages = (timestamp: number, locale = 'en') => 
 
   return distance; // Mostra "5 minuti fa", "2 ore fa", ecc.
 }
+
+/**
+ * Handles input changes for any other number value.
+ * Validates and sanitizes the input, ensuring it's a valid number
+ *
+ * @param e - React change event from input field
+ * @param setInput - Function to update input state
+ */
+export function handleNumberInputChange(e: React.ChangeEvent<HTMLInputElement>, setInput: (value: string) => void) {
+  const { value } = e.target;
+
+  // Allow numbers and one decimal point
+  if (!/^[0-9]*[.,]?[0-9]*(\s+[0-9]*[.,]?[0-9]*)?$/.test(value)) return;
+
+  const sanitizedValue = value.replace(/\s+/g, '').replace(',', '.');
+  const numValue = parseFloat(sanitizedValue);
+
+  if (sanitizedValue === '' || Number.isNaN(numValue)) {
+    setInput('');
+  } else {
+    setInput(sanitizedValue);
+  }
+}
