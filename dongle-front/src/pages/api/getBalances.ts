@@ -1,5 +1,4 @@
 // getBalances.ts
-import { withAuth } from "@/middlewares/middleware";
 import axios from "axios";
 
 async function getBalancesHandler(req: any, res: any) {
@@ -8,6 +7,10 @@ async function getBalancesHandler(req: any, res: any) {
     // arbitrum: 42161; || base: 8453
 
     const {chain, address} = req?.body 
+    if (!chain || !address) {
+        return res.status(400).json({ error: 'Missing required fields, chain, and address are required' });
+    }
+
     const url = `https://api.1inch.dev/balance/v1.2/${chain}/balances/${address}`;
     const config = {
       headers: { "Authorization": "Bearer " + process.env.ONEINCH_API_KEY },
@@ -31,4 +34,4 @@ async function getBalancesHandler(req: any, res: any) {
   }
 }
 
-export default withAuth(getBalancesHandler)
+export default getBalancesHandler
