@@ -26,7 +26,7 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
             {!user
                 ? <TwitterLogin />
                 : children
-            } */}
+            }
         </>
       )}
     </>
