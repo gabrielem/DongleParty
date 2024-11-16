@@ -11,8 +11,6 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <button onClick={logout}>Logout</button>
         <AddChallengeForm />
-
-      <button onClick={logout}>Logout</button>
       </main>
 
       <Footer />
