@@ -31,6 +31,7 @@ const ChallengesList = ({refresh}: any) => {
 
   useEffect(() => {
     const fetchChallenges = async () => {
+      setLoading(false)
       try {
         const data = await api.getChallenges(token)
         setChallenges(data)
