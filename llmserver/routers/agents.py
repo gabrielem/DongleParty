@@ -18,6 +18,17 @@ async def create_wallet(user_id: str):
     }
 
 
+@agent_router.get("/user/{user_id}/wallet")
+async def get_wallet(user_id: str):
+    """Get a wallet for a user."""
+    print("Creating wallet for user:", user_id)
+    [wallet_data, wallet_address] = get_or_create_wallet(user_id)
+    return {
+        "wallet_address": wallet_address,
+        "user_id": user_id,
+    }
+
+
 @agent_router.post("/user/{user_id}/start")
 async def start_agent(user_id: str):
     """Start an agent in a specified mode."""
