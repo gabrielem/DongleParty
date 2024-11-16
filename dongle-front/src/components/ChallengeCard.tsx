@@ -1,16 +1,15 @@
 import { useState } from "react";
 import ModalContent from "./UI/ModalContent";
 import ChallengeCardInfo from "./ChallengeCardInfo";
-import { ChallengeCardData, ChallengeDetail } from "@/modules/_types";
+import { Challenge, ChallengeDetail } from "@/modules/_types";
 import { useAuth } from "@/context/AuthContext";
 
 interface ChallengeCardProps {
-  challenge: ChallengeCardData;
+  challenge: Challenge;
 }
 
 const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
-
-  const {myChallenge} = useAuth();
+  const { myChallenge } = useAuth();
 
   const [show, setShow] = useState<boolean>(false);
   const [joinShow, setJoinShow] = useState<boolean>(false);
@@ -25,11 +24,12 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
     return Math.floor((currentParticipants / maxParticipants) * 100);
   }
 
-  const maxParticipant = challenge?.maxParticipant || 0;
-  const actualParticipant = challenge?.participants?.length || 0;
+  const maxParticipants = challenge?.maxParticipants || 0;
+  // Use Object.keys() to get the number of participants
+  const actualParticipants = Object.keys(challenge?.participants || {}).length;
   const actualPerc = calculateCompletionPercentage(
-    maxParticipant,
-    actualParticipant
+    maxParticipants,
+    actualParticipants
   );
 
   // Transform challenge data to match ChallengeDetail interface
@@ -39,12 +39,12 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
     prize: 0, // Add prize if available in your data
     startAmount: challenge.startAmount,
     targetAmount: challenge.targetAmount,
-    participants: challenge.participants || [], // Provide empty array as fallback
+    participants: challenge.participants || {}, // Provide empty object as fallback
     hasJoined: false, // Add logic to determine if user has joined
   };
 
   const handleJoinClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click event
+    e.stopPropagation();
     setJoinShow(true);
   };
 
@@ -74,7 +74,7 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
       </ModalContent>
 
       <div
-        className="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow cursor-pointer"
+        className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
         onClick={() => setShow(true)}
       >
         <div className="flex justify-between items-center mb-2">
@@ -97,14 +97,11 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
           </div>
           <div className="flex justify-between w-full">
             <div className="text-sm font-medium text-purple-600">Active!</div>
-
-            {myChallenge === challenge?.id ? <div className="text-sm font-medium text-purple-600">You Joined!</div> : null}
-            {/* <button
-              className="px-4 py-1 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
-              onClick={handleJoinClick}
-            >
-              Join
-            </button> */}
+            {myChallenge === challenge?.id && (
+              <div className="text-sm font-medium text-purple-600">
+                You Joined!
+              </div>
+            )}
           </div>
         </div>
       </div>

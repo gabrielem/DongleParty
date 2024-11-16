@@ -37,14 +37,13 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 interface Challenge {
+  id: string;
   name: string;
   startAmount: number;
   targetAmount: number;
-  maxParticipant: number;
-  status?: string;
-  completion?: number;
+  participants: ParticipantsMap;
+  maxParticipants: number;
 }
-
 interface Participant {
   joinedAt: number;
   twitterHandler: string;
@@ -58,18 +57,13 @@ interface ParticipantsMap {
 }
 
 interface ChallengeDetail {
-  id: number;
+  id: string;
   name: string;
   prize: number;
   startAmount: number;
   targetAmount: number;
   participants: ParticipantsMap;
   hasJoined?: boolean;
-}
-
-interface ChallengeCardData extends Challenge {
-  id: number;
-  participants?: Participant[];
 }
 
 interface ChallengeCardInfoProps {
@@ -84,6 +78,5 @@ export type {
   Challenge,
   Participant,
   ChallengeDetail,
-  ChallengeCardData,
   ChallengeCardInfoProps,
 };
