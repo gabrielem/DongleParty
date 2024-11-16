@@ -9,12 +9,15 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  TwitterAuthProvider,
 } from 'firebase/auth'
 import { app } from '@/config/firebase'
 import Loading from '@/components/UI/Loading';
 import Auth from '@/components/Auth';
 
 const googleProvider = new GoogleAuthProvider()
+const twitterProvider = new TwitterAuthProvider()
+
 export const AuthContext = createContext({})
 export const useAuth = () => useContext(AuthContext) as any
 
@@ -49,6 +52,21 @@ export const AuthContextProvider = ({
     setLoading(false)
     return u || null
   }
+  const signinWithProvider = async (provider: GoogleAuthProvider | TwitterAuthProvider) => {
+    setLoading(true)
+    try {
+      const auth = getAuth()
+      const result = await signInWithPopup(auth, provider)
+      await getUser()
+      return { user: result.user }
+    } catch (error) {
+      return { error }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const signinTwitter = () => signinWithProvider(twitterProvider)
 
   const signin = async (email: string, password: string) => {
     const authentication = getAuth(app)
@@ -158,6 +176,7 @@ export const AuthContextProvider = ({
         signinGoogle,
         logout,
         forgotPass,
+        signinTwitter,
         getUser,
         getToken,
         token,
