@@ -1,3 +1,4 @@
+import { withAuth } from "@/middlewares/middleware";
 
 async function handler(req: any, res: any) {
   try {
@@ -8,4 +9,4 @@ async function handler(req: any, res: any) {
   }
 }
 
-export default handler
+export default withAuth(handler)

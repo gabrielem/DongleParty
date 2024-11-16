@@ -83,7 +83,7 @@ export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResp
       } catch (e) {
         console.log('--> Authentication error <--');
         console.log(e)
-        return res.status(401).send({ error: 'Non autorizzato!' })
+        return res.status(401).send({ error: 'Not Authorized!' })
       }
   
       return handler(req, res)
