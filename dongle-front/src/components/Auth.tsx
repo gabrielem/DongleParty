@@ -1,7 +1,7 @@
 // Auth
 import { useAuth } from '@/context/AuthContext';
 import React, { ReactNode } from 'react';
-import Loading from './UI/Loading';
+import Loading from '@/components/UI/Loading';
 // import FormLogin from './FormLogin';
 import TwitterLogin from './TwitterLogin';
 
