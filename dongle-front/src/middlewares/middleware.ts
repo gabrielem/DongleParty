@@ -68,7 +68,7 @@ export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResp
       try {
         const token = getTokenFromHeader(req.headers)
         const { decodedToken } = await doAuth(token)
-        const userRecord = await admin.auth().getUserByEmail(decodedToken?.email);
+        // const userRecord = await admin.auth().getUserByEmail(decodedToken?.email);
         // const hasMFA = userRecord?.multiFactor?.enrolledFactors?.length
   
         req.authId = decodedToken.uid

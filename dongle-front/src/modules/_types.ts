@@ -15,6 +15,13 @@ interface FirebaseConfig {
     password: string
   }
 
+  interface ModalContentProps {
+    children: React.ReactNode;
+    overlayClassName?: string;
+    modalClassName?: string;
+    handleShow?: any;
+  }
+
 interface ExtendedNextApiRequest extends NextApiRequest {
     originalUrl?: string
     isAdmin?: boolean
@@ -31,6 +38,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
   export type {
     FirebaseConfig,
     IFormLogin,
-    ExtendedNextApiRequest
+    ExtendedNextApiRequest,
+    ModalContentProps
     
   }  
