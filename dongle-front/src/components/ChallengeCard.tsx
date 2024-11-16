@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ModalContent from "./UI/ModalContent";
+import ChallengeCardInfo from "./ChallengeCardInfo";
 
 const ChallengeCard = ({ challenge }: any) => {
   const [show, setShow] = useState<boolean>(false)
@@ -18,9 +19,7 @@ const ChallengeCard = ({ challenge }: any) => {
     return (
       <>
       <ModalContent handleShow={{show, setShow}}>
-        <div className="bg-white p-1 text-black rounded-md shadow-sm">
-          Card.. INFO
-        </div>
+        <ChallengeCardInfo challenge={challenge} />
       </ModalContent>
       <ModalContent handleShow={{show: joinShow, setShow: setJoinShow}}>
         <div className="bg-white p-1 text-black rounded-md shadow-sm">
@@ -28,7 +27,7 @@ const ChallengeCard = ({ challenge }: any) => {
             <div className="text-gray-500 text-sm text-center">Challenge:</div>
             <b className=" text-2xl text-purple-600 text-center">{challenge?.name}</b>
             <div>
-              
+
             </div>
           </div>
 
