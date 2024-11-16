@@ -65,6 +65,7 @@ export default function DepositOnWallet({ challenge, myPartecipation }: DepositO
     try {
       await navigator.clipboard.writeText(qrCodeValue);
       // You could add a toast notification here
+      toast.success('Address copied to clipboard');
     } catch (err) {
       console.error('Failed to copy:', err);
     }
