@@ -139,22 +139,14 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
 
       {/* Action Button */}
       <div className="p-3 bg-white border-t border-gray-200">
-        {!challenge?.participants?.[user?.uid] ? (
-          <Button
-            onClick={handleJoin}
-            loading={loading}
-            className="w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
-          >
-            Join Challenge
-          </Button>
-        ) : (
+        {
           <Link
             href={`/agent/${challenge.id}`}
             className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
           >
-            Go to Agent AI
+            {!challenge?.participants?.[user?.uid] ? "Join Challenge" : "Go to Agent AI"}
           </Link>
-        )}
+        }
       </div>
     </div>
   );
