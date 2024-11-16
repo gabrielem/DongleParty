@@ -30,6 +30,8 @@ class AgentManager:
         """Stop an agent's thread."""
         if user_id in self.threads:
             del self.threads[user_id]
+        if user_id in self.agents:
+            del self.agents[user_id]
 
     def process_message(self, user_id: str, message: str):
         """Process a message for a specific user's agent."""

@@ -6,7 +6,7 @@ from cdp_langchain.utils import CdpAgentkitWrapper
 from langchain_core.messages import HumanMessage
 from services.firebase_service import get_wallet_data_by_user
 
-wallet_data_file = "wallet_data.txt"
+from lib.tools.approve_token import buildApproveTokenTool
 
 
 def initialize_agent(user_id: str):
@@ -23,7 +23,22 @@ def initialize_agent(user_id: str):
 
     # Initialize CDP Agentkit tools
     cdp_toolkit = CdpToolkit.from_cdp_agentkit_wrapper(agentkit)
-    tools = cdp_toolkit.get_tools()
+    default_tools = cdp_toolkit.get_tools()
+    approval_tool = buildApproveTokenTool(agentkit)
+    for tool in default_tools:
+        print(tool.name)
+
+    # Only take tools with names [transfer, get_wallet_details,get_balance,trade]
+    tools = [
+        tool
+        for tool in default_tools
+        if tool.name in ["transfer", "get_wallet_details", "get_balance", "trade"]
+    ]
+    tools.append(approval_tool)
+
+    print("Enabled tools:")
+    for tool in tools:
+        print(tool.name)
 
     # Store buffered conversation history in memory
     # TODO: Add persistent to memory

@@ -10,7 +10,6 @@ manager = AgentManager()
 @agent_router.post("/user/{user_id}/create_wallet")
 async def create_wallet(user_id: str):
     """Create a wallet for a user."""
-    print("Creating wallet for user:", user_id)
     [wallet_data, wallet_address] = get_or_create_wallet(user_id)
     return {
         "wallet_data": wallet_data,
