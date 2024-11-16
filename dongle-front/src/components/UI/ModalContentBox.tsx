@@ -14,7 +14,7 @@ const ModalContentBox: React.FC<ModalContentPropsExtended> = ({
 }) => {
   const { show, setShow } = handleShow
 
-  console.log('->ModalContentBox', { show, handleShow });
+  // console.log('->ModalContentBox', { show, handleShow });
   
 
   if (!show) return null;

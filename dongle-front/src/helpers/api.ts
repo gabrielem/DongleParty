@@ -31,6 +31,11 @@ const api = {
     async setChallenge (payload: any, token: string | null | undefined) {
         return buildTheRequest({method: 'post', url: '/setChallenge', payload, token})
     },
+    // getWallet
+    async getWallet (token: string | null | undefined) {
+        return buildTheRequest({method: 'get', url: '/getWallet', token})
+    }
+    // getUser
     
     
 }

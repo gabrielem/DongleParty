@@ -28,6 +28,7 @@ export default function Home() {
       </ModalContent>
 
       <Header />
+
       <main className="flex-1 container mx-auto px-4 py-6">
         <CreateChallengeButton onClick={handleToggleChallnegeForm} />
         

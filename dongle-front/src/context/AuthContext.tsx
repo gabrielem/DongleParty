@@ -14,6 +14,7 @@ import {
 import { app } from '@/config/firebase'
 import Loading from '@/components/UI/Loading';
 import Auth from '@/components/Auth';
+import api from '@/helpers/api';
 
 const googleProvider = new GoogleAuthProvider()
 const twitterProvider = new TwitterAuthProvider()
@@ -28,6 +29,7 @@ export const AuthContextProvider = ({
   const [token, setToken] = useState('')
   const [loading, setLoading] = useState(true)
   const [admin, setAdmin] = useState(false)
+  const [wallet, setWallet] = useState('')
   
   const getToken = async () => {
     const auth = getAuth(app)
@@ -44,12 +46,20 @@ export const AuthContextProvider = ({
     }
   }
 
-  
+  const getWallet = async () => {
+    let t = token
+    if (!token) t = await getToken() as string
+
+    const result = await api.getWallet(t)
+    console.log('--> getWallet', { result });
+    setWallet(result.wallet_address)
+  }
   const getUser = async () => {
     setLoading(true)
     let u = await getAuth(app).currentUser
     setUser(u || null)
     await getToken()
+    await getWallet()
     setLoading(false)
     return u || null
   }
@@ -186,6 +196,7 @@ export const AuthContextProvider = ({
         getToken,
         token,
         admin,
+        wallet
       }}
       ><Auth>
         {loading ? <Loading /> : children}
