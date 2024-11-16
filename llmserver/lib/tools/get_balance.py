@@ -1,6 +1,8 @@
 from cdp import Wallet
 from cdp_langchain.tools import CdpTool
 from pydantic import BaseModel, Field
+from decimal import Decimal
+import requests
 
 GET_BALANCE_PROMPT = """
 This tool queries the token balances for a given wallet address.
@@ -28,16 +30,21 @@ def get_wallet_balance(wallet_address: str) -> str:
         wallet_address (str): The Ethereum address to check balances for
 
     Returns:
-        str: JSON string containing token balances
+        str: string array token balances in the format of "Token Name (Symbol): Balance"
     """
     try:
         print(f"[Tool called] get_wallet_balance, wallet_address: {wallet_address}")
 
-        # TODO: Implement balance API call here
-        # This is a placeholder that should be replaced with actual API integration
-        balances = {"eth": "0.0", "tokens": []}
+        balances = get_1inch_balances(wallet_address)
 
-        return str(balances)
+        filtered_balances = list(filter(lambda x: int(x["balance"]) > 0, balances))
+        formatted_lines = map(
+            lambda x: f"{x['name']} ({x['symbol']}): {Decimal(x['balance']) / (Decimal(10)** Decimal(x['decimals']))}",
+            filtered_balances,
+        )
+
+        formatted_balances = "\n".join(formatted_lines)
+        return f"Balances for wallet {wallet_address}:\n{formatted_balances}"
 
     except Exception as e:
         print(f"Error getting wallet balance: {e!s}")
@@ -53,3 +60,12 @@ def buildGetBalanceTool(agentkit):
         func=get_wallet_balance,
     )
     return getBalanceTool
+
+
+def get_1inch_balances(wallet_address: str) -> str:
+    url = f"https://dongle-party.vercel.app/api/getBalances"
+    data = {"address": wallet_address}
+    response = requests.post(url, json=data)
+    data = response.json()
+
+    return data

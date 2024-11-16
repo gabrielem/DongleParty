@@ -10,3 +10,4 @@ python-dotenv==1.0.1
 uvicorn==0.32.0
 web3
 requests
+decimal

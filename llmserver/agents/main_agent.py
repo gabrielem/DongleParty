@@ -8,6 +8,7 @@ from services.firebase_service import get_wallet_data_by_user
 
 from lib.tools.approve_token import buildApproveTokenTool
 from lib.tools.analyse_token import buildAnalyseTokenTool
+from lib.tools.get_balance import buildGetBalanceTool
 
 
 def initialize_agent(user_id: str):
@@ -27,16 +28,17 @@ def initialize_agent(user_id: str):
     default_tools = cdp_toolkit.get_tools()
     approval_tool = buildApproveTokenTool(agentkit)
     analyse_token_tool = buildAnalyseTokenTool(agentkit)
+    get_balance_tool = buildGetBalanceTool(agentkit)
 
     # Only take tools with names [transfer, get_wallet_details,get_balance,trade]
     tools = [
         tool
         for tool in default_tools
-        if tool.name in ["transfer", "get_wallet_details", "get_balance", "trade"]
+        if tool.name in ["transfer", "get_wallet_details", "trade"]
     ]
     tools.append(approval_tool)
     tools.append(analyse_token_tool)
-
+    tools.append(get_balance_tool)
     print("Enabled tools:")
     for tool in tools:
         print(tool.name)

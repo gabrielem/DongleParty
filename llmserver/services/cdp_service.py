@@ -33,7 +33,4 @@ def get_or_create_wallet(user_id: str):
     wallet_data = agentkit.export_wallet()
     wallet_address = save_wallet_data(user_id, wallet_data, network_id)
 
-    if webhookURL:
-        wallet = Wallet.import_wallet(wallet_data)
-        wallet.create_webhook(f"{webhookURL}/{user_id}/wallet")
     return [wallet_data, wallet_address]
