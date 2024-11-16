@@ -1,5 +1,5 @@
 import admin from '@/config/firebase-admin'
-import NextCors from 'nextjs-cors'
+// import NextCors from 'nextjs-cors'
 import { NextApiResponse } from 'next'
 import { ExtendedNextApiRequest } from '@/modules/_types';
 
@@ -47,25 +47,25 @@ export async function doAuth(token: string) {
    }
  }
 
-export function withCors(handler: (req: ExtendedNextApiRequest, res: NextApiResponse) => Promise<void>) {
-    return async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
-      await NextCors(req, res, {
-        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-        origin: '*',
-        optionsSuccessStatus: 200,
-      })
+// export function withCors(handler: (req: ExtendedNextApiRequest, res: NextApiResponse) => Promise<void>) {
+//     return async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
+//       await NextCors(req, res, {
+//         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//         origin: '*',
+//         optionsSuccessStatus: 200,
+//       })
   
-      return handler(req, res)
-    }
-}
+//       return handler(req, res)
+//     }
+// }
 
 export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResponse) => Promise<void>, types?: string[]) {
     return async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
-      await NextCors(req, res, {
-        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-        origin: '*',
-        optionsSuccessStatus: 200,
-      })
+      // await NextCors(req, res, {
+      //   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+      //   origin: '*',
+      //   optionsSuccessStatus: 200,
+      // })
   
       try {
         const token = getTokenFromHeader(req.headers)
