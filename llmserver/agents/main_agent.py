@@ -14,6 +14,9 @@ def initialize_agent(user_id: str):
 
     wallet_data = get_wallet_data_by_user(user_id)
 
+    if wallet_data is None:
+        raise Exception("Wallet data not found")
+
     values = {"cdp_wallet_data": wallet_data} if wallet_data else {}
     agentkit = CdpAgentkitWrapper(**values)
 
