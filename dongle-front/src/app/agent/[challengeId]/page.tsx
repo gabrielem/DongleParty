@@ -37,19 +37,17 @@ export default function AgentPage({params}: any): JSX.Element {
     
     const myPartecipation = challenge?.participants?.[user?.uid]
     return (
-      <div className="">
+      <div className="flex flex-col min-h-screen">
         <Header />
         {myPartecipation 
-          ? (<>
-            {myPartecipation?.balance
+          ? (<div className="w-full h-full flex-1">
+            {!myPartecipation?.balance
               ? <AgentChat challenge={challenge} myPartecipation={myPartecipation} />
               : <DepositOnWallet challenge={challenge} myPartecipation={myPartecipation} />
             }
-          </>) 
+          </div>) 
           : <div><Loading /></div>
         }
-        AgentPage
-
         <Footer />
       </div>
     )
