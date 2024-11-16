@@ -3,6 +3,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 from cdp_langchain.agent_toolkits import CdpToolkit
 from cdp_langchain.utils import CdpAgentkitWrapper
+from langchain_core.messages import HumanMessage
 from services.firebase_service import get_wallet_data_by_user
 
 wallet_data_file = "wallet_data.txt"
@@ -38,3 +39,11 @@ def initialize_agent(user_id: str):
         ),
         config,
     )
+
+
+def handle_message(agent, config, message: str):
+    """Process a user message synchronously with the agent."""
+    input_message = HumanMessage(content=message)
+    result = agent.invoke({"messages": [input_message]}, config)
+
+    return result["messages"][-1].content
