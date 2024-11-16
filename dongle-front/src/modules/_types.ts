@@ -35,10 +35,20 @@ interface ExtendedNextApiRequest extends NextApiRequest {
     userData?: any
     apiAuthKey?: any
   }
+
+  interface Challenge {
+    name: string;
+    startAmount: number;
+    targetAmount: number;
+    maxParticipant: number;
+    status?: string;
+    completion?: number;
+  }
+  
   export type {
     FirebaseConfig,
     IFormLogin,
     ExtendedNextApiRequest,
-    ModalContentProps
-    
-  }  
+    ModalContentProps,
+    Challenge
+  }
