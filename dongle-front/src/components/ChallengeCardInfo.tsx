@@ -2,10 +2,16 @@ import { useRouter } from 'next/navigation';
 import { ChallengeCardInfoProps } from '@/modules/_types';
 import Button from '@/components/UI/Button';
 import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
 const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
+
+  const {user} = useAuth();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
 
   const handleJoin = async () => {
     setLoading(true);
@@ -117,22 +123,14 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
 
       {/* Action Button */}
       <div className="p-4 bg-white border-t border-gray-200">
-        {!challenge.hasJoined ? (
-          <Button
-            onClick={handleJoin}
-            loading={loading}
+        
+          <Link
+            href={`/agent/${challenge.id}`}
             className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
           >
-            Join Challenge
-          </Button>
-        ) : (
-          <Button
-            onClick={handleNext}
-            className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
-          >
-            Setup Trading Bot
-          </Button>
-        )}
+            {!challenge?.participants?.[user.uid] ? 'Join Challenge' : 'Go to Agent'}
+          </Link>
+        
       </div>
     </div>
   );

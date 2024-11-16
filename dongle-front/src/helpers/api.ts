@@ -34,8 +34,11 @@ const api = {
     // getWallet
     async getWallet (token: string | null | undefined) {
         return buildTheRequest({method: 'get', url: '/getWallet', token})
+    },
+    // joinChallenge
+    async joinChallenge (payload: any, token: string | null | undefined) {
+        return buildTheRequest({method: 'post', url: '/joinChallenge', payload, token})
     }
-    // getUser
     
     
 }
