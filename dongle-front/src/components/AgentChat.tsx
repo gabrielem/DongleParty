@@ -59,19 +59,19 @@ export default function AgentChat({ challengeId, challenge, myPartecipation }: P
 
 
   const setMsg = async (item: any) => {
-    console.log('🍎🍎🍎setMessage', {message, item});
+    // console.log('🍎🍎🍎setMessage', {message, item});
     setLoadingResponse(true)
     try {
         const payload = {message: item, challengeId}
-        console.log('🍎🍎🍎setMessage - payload', payload);
+        // console.log('🍎🍎🍎setMessage - payload', payload);
         
         const result = await api.setMessage(payload, token)
-        console.log('🍎🍎🍎setMessage - result', result.response);
+        // console.log('🍎🍎🍎setMessage - result', result.response);
         addItem(true, result.response)
         // result.response
         
     } catch (error: any) {
-        console.log('🍎🍎🍎setMessage - error', {error});
+        // console.log('🍎🍎🍎setMessage - error', {error});
         toast.error(typeof error === "string" ? error : error.message || 'Error sending message')
     } finally {
         setLoadingResponse(false)
@@ -81,7 +81,7 @@ export default function AgentChat({ challengeId, challenge, myPartecipation }: P
     if (!message.trim()) return
     const item = addItem()
     setMsg(item)
-    console.log('Messaggio inviato:', message)
+    // console.log('Messaggio inviato:', message)
     setMessage('')
 
 

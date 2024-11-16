@@ -13,13 +13,13 @@ async function setMessageHandler(req: any, res: any) {
     if(!challengeId) throw "Challenge ID not found"
     
     
-    console.log('🔑🔑🔑 setMessageHandler', { uid, message });
+    // console.log('🔑🔑🔑 setMessageHandler', { uid, message });
     
     const response = await axios.post(`https://donglellmapi.onrender.com/user/${uid}/message`, {
         message: message.message
     }, { headers: { 'Content-Type': 'application/json', } });
     
-    console.log('🔑🔑🔑 setMessageHandler RESPOSNE:', response.data);
+    // console.log('🔑🔑🔑 setMessageHandler RESPOSNE:', response.data);
 
     // await admin.database().ref(`challenges/lists/${challengeId}/participants/${uid}/messages`).push(message)
     // await admin.database().ref(`challenges/lists/${challengeId}/participants/${uid}/messages`).push({

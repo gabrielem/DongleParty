@@ -3,13 +3,13 @@ import { withAuth } from "@/middlewares/middleware";
 import axios from 'axios';
 
 async function getWalletHandler(req: any, res: any) {
-  console.log('--> getWalletHandler');
+  // console.log('--> getWalletHandler');
   
   try {
     const uid = req.uid;
     const result = (await admin.database().ref(`wallet/user_id/${uid}`).once('value')).val();
     let wallet_address = result?.wallet?.default_address_id;
-    console.log('🔑🔑🔑 getWalletHandler', { wallet_address });
+    // console.log('🔑🔑🔑 getWalletHandler', { wallet_address });
 
     if (!wallet_address) {
       try {
@@ -19,7 +19,7 @@ async function getWalletHandler(req: any, res: any) {
           },
         });
 
-        console.log('🔑🔑🔑 getWalletHandler', { response: response.data });
+        // console.log('🔑🔑🔑 getWalletHandler', { response: response.data });
 
         wallet_address = response.data.wallet_address; // Assumi che l'API restituisca questo campo
         console.log('✅ Nuovo wallet creato:', wallet_address);

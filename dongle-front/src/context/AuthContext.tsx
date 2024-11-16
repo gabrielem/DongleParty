@@ -53,7 +53,7 @@ export const AuthContextProvider = ({
     if (!token) t = await getToken() as string
 
     const result = await api.getWallet(t)
-    console.log('--> getWallet', { result });
+    // console.log('--> getWallet', { result });
     setWallet(result.wallet_address)
     if(result.challengeId) setMyChallenge(result.challengeId)
   }

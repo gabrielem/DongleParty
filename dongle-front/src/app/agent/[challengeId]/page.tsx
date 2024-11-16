@@ -16,13 +16,13 @@ export default function AgentPage({params}: any): JSX.Element {
   const { token, user, getWallet } = useAuth()
   const { challengeId } = use(params) as any;
 
-  console.log('🍎🍎🍎 AgentPage - params', {params, challengeId});
+  // console.log('🍎🍎🍎 AgentPage - params', {params, challengeId});
   
   const [challenge, setChallenge] = useState<any>(null)
 
     useEffect(() => {
       const joinChallenge = async () => {
-        console.log('🍎🍎🍎 joinChallenge', {challengeId});
+        // console.log('🍎🍎🍎 joinChallenge', {challengeId});
         
         try {
           const result = await api.joinChallenge({challengeId: challengeId}, token)
@@ -40,7 +40,7 @@ export default function AgentPage({params}: any): JSX.Element {
       getWallet()
     }, [challenge])
 
-    console.log('🔑🔑🔑 AgentPage - params - token', {params, token});
+    // console.log('🔑🔑🔑 AgentPage - params - token', {params, token});
     
     const myPartecipation = challenge?.participants?.[user?.uid]
     return (

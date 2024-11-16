@@ -42,7 +42,7 @@ export async function doAuth(token: string) {
      }
  
    } catch (error) {
-     console.log('🔑🔑🔑 doAuth: error detected!', {token});
+     // console.log('🔑🔑🔑 doAuth: error detected!', {token});
      throw error
    }
  }
