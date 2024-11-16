@@ -1,18 +1,17 @@
 // app/page.tsx
-"use client";
-import { useState } from "react";
-import Header from "@/components/Header";
-import CreateChallengeButton from "@/components/UI/CreateChallengeButton";
-import ChallengeList from "@/components/ChallengeList";
-import Footer from "@/components/Footer";
-import ModalContent from "@/components/UI/ModalContent";
-import AddChallengeForm from "@/components/AddChallengeForm";
-import { Challenge } from "@/modules/_types";
+'use client'
+import { useState } from 'react'
+import Header from '@/components/Header'
+import CreateChallengeButton from '@/components/UI/CreateChallengeButton'
+import Footer from '@/components/Footer'
+import ModalContent from '@/components/UI/ModalContent'
+import AddChallengeForm from '@/components/AddChallengeForm'
+import ChallengesList from '@/components/ChallengesList'
 
 export default function Home() {
   const [show, setShow] = useState<boolean>(false)
 
-  const handleChallengeCreated = (challenge: Challenge) => {
+  const handleChallengeCreated = (challenge: any) => {
     setShow(false)
     // You might want to refresh the challenges list here
   }
@@ -31,8 +30,8 @@ export default function Home() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-6">
         <CreateChallengeButton onClick={handleToggleChallnegeForm} />
-        <div className="my-6 border-t border-gray-300" />
-        <ChallengeList />
+        
+        <ChallengesList />
       </main>
       <Footer />
     </div>
