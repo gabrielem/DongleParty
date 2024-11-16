@@ -1,7 +1,12 @@
 'use client'
 
+import { useAuth } from '@/context/AuthContext'
+import api from '@/helpers/api'
+import { formatTimestampForMessages } from '@/utils/utils'
 import { useState, useRef, useEffect } from 'react'
 import { IoSend } from "react-icons/io5"
+import { toast } from 'react-toastify'
+import Loading from './UI/Loading'
 
 interface Message {
   me?: boolean
@@ -11,15 +16,21 @@ interface Message {
 }
 
 interface Props {
-  challenge: any
-  myPartecipation: any
+    challengeId: any
+    challenge: any
+    myPartecipation: any
 }
 
-export default function AgentChat({ challenge, myPartecipation }: Props): JSX.Element {
-  const [message, setMessage] = useState('')
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+export default function AgentChat({ challengeId, challenge, myPartecipation }: Props): JSX.Element {
+
+    const { token } = useAuth()
+
+    const [message, setMessage] = useState('')
+    const [loadingResponse, setLoadingResponse] = useState(false)
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
   
-  const [messages, setMessages] = useState<{ me?: boolean; bot?: boolean; message: string, date: any }[]>([]);
+    const [messages, setMessages] = useState<{ me?: boolean; bot?: boolean; message: string, date: any }[]>([]);
 
 
 //   const messages: Message[] = [
@@ -38,16 +49,38 @@ export default function AgentChat({ challenge, myPartecipation }: Props): JSX.El
   }, [message])
 
 
-  const addItem = (bot?: boolean) => {
+  const addItem = (bot?: boolean, msg?: any) => {
     const how = bot ? {bot: true} : {me: true}
-    const newItem = { ...how, message, date: Date.now() };
+    const newItem = { ...how, message: msg || message, date: Date.now() };
 
     setMessages((prevItems) => [...prevItems, newItem]);
+    return newItem
   };
 
+
+  const setMsg = async (item: any) => {
+    console.log('🍎🍎🍎setMessage', {message, item});
+    setLoadingResponse(true)
+    try {
+        const payload = {message: item, challengeId}
+        console.log('🍎🍎🍎setMessage - payload', payload);
+        
+        const result = await api.setMessage(payload, token)
+        console.log('🍎🍎🍎setMessage - result', result.response);
+        addItem(true, result.response)
+        // result.response
+        
+    } catch (error: any) {
+        console.log('🍎🍎🍎setMessage - error', {error});
+        toast.error(typeof error === "string" ? error : error.message || 'Error sending message')
+    } finally {
+        setLoadingResponse(false)
+    }
+  }
   const handleSubmit = () => {
     if (!message.trim()) return
-    addItem()
+    const item = addItem()
+    setMsg(item)
     console.log('Messaggio inviato:', message)
     setMessage('')
 
@@ -77,11 +110,12 @@ export default function AgentChat({ challenge, myPartecipation }: Props): JSX.El
             >
               <p className="text-sm">{msg.message}</p>
               <span className={`text-xs ${msg.me ? 'text-primary-content' : 'text-gray-500'} mt-1 block`}>
-                {msg.date}
+                {formatTimestampForMessages(msg.date)}
               </span>
             </div>
           </div>
         ))}
+        {loadingResponse ? <><Loading heightType="h-full" /></> : null}
       </div>
 
       {/* Input area fissa in basso */}
