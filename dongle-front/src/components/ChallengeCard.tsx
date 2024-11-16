@@ -4,11 +4,8 @@ import ChallengeCardInfo from "./ChallengeCardInfo";
 import { Challenge, ChallengeDetail } from "@/modules/_types";
 import { useAuth } from "@/context/AuthContext";
 
-interface ChallengeCardProps {
-  challenge: Challenge;
-}
 
-const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
+const ChallengeCard = ({ challenge }: any) => {
   const { myChallenge } = useAuth();
 
   const [show, setShow] = useState<boolean>(false);
