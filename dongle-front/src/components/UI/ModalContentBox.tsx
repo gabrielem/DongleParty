@@ -1,6 +1,6 @@
 import { ModalContentProps } from '@/modules/_types';
 import React from 'react';
-import { IoCloseCircleSharp } from 'react-icons/io5';
+import { IoClose, IoCloseCircleOutline } from 'react-icons/io5';
 
 interface ModalContentPropsExtended extends ModalContentProps {
     handleShow:any;
@@ -29,12 +29,12 @@ const ModalContentBox: React.FC<ModalContentPropsExtended> = ({
       >
         <button
           onClick={() => setShow(false)}
-          className="absolute top-2 right-2 text-white hover:text-gray-200 bg-primary bg-opacity-100 rounded-full p-1 z-10"
+          className="absolute top-2 right-2 bg-primary bg-opacity-100 rounded-full p-1 z-10"
           aria-label="Close modal"
         >
-          <IoCloseCircleSharp className='text-3xl' />
+          <IoCloseCircleOutline className='text-3xl text-black' />
         </button>
-        <div className="p-6 overflow-y-auto flex-grow">
+        <div className="overflow-y-auto flex-grow">
           {children}
         </div>
       </div>
