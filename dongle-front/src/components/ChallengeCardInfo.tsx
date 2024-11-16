@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 
 const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
-  const { user } = useAuth();
+  const { user, myChallenge } = useAuth();
 
   const getOrdinal = (position: number): string => {
     if (position > 3) return `${position}th`;
@@ -122,22 +122,49 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
 
       {/* Action Button */}
       <div className="p-3 bg-white border-t border-gray-200">
-        {
-          <Link
-            href={`/agent/${challenge.id}`}
-            className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
-          >
-            {!challenge?.participants?.[user?.uid] ? (
-              "Join Challenge"
-            ) : (
-              <>
-                {challenge?.participants?.[user?.uid]?.balance
-                  ? "Go to Agent AI"
-                  : "Go to Wallet"}
+        {myChallenge
+          ? <>
+            {myChallenge === challenge.id
+              ? <Link
+                href={`/agent/${challenge.id}`}
+                className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
+              >
+                Go to Agent AI
+              </Link>
+              : <>
+                <div className="text-center text-black p-1">
+                  you can Join only one Challenge at a time
+                </div>
+              {/* <Link
+                href={`/agent/${myChallenge}`}
+                className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
+              >
+                Go to My Agent
+              </Link> */}
               </>
-            )}
-          </Link>
+            }
+          </>
+          : <>
+            {
+              <Link
+                href={`/agent/${challenge.id}`}
+                className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
+              >
+                {!challenge?.participants?.[user?.uid] ? (
+                  "Join Challenge"
+                ) : (
+                  <>
+                    {challenge?.participants?.[user?.uid]?.balance
+                      ? "Go to Agent AI"
+                      : "Go to Wallet"}
+                  </>
+                )}
+              </Link>
+            }  
+          </>
+
         }
+        
       </div>
     </div>
   );

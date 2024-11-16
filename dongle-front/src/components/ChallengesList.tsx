@@ -23,7 +23,7 @@ const Loading = () => (
   </div>
 )
 
-const ChallengesList = () => {
+const ChallengesList = ({refresh}: any) => {
   const { token } = useAuth()
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [loading, setLoading] = useState(true)
@@ -42,7 +42,7 @@ const ChallengesList = () => {
     }
 
     fetchChallenges()
-  }, [token])
+  }, [token, refresh])
 
   if (loading) return <Loading />
 

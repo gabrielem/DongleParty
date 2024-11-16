@@ -30,6 +30,8 @@ export const AuthContextProvider = ({
   const [loading, setLoading] = useState(true)
   const [admin, setAdmin] = useState(false)
   const [wallet, setWallet] = useState('')
+  const [myChallenge, setMyChallenge] = useState()
+  
   
   const getToken = async () => {
     const auth = getAuth(app)
@@ -53,6 +55,7 @@ export const AuthContextProvider = ({
     const result = await api.getWallet(t)
     console.log('--> getWallet', { result });
     setWallet(result.wallet_address)
+    if(result.challengeId) setMyChallenge(result.challengeId)
   }
   const getUser = async () => {
     setLoading(true)
@@ -196,7 +199,9 @@ export const AuthContextProvider = ({
         getToken,
         token,
         admin,
-        wallet
+        wallet,
+        myChallenge,
+        getWallet
       }}
       ><Auth>
         {loading ? <Loading /> : children}

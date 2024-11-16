@@ -13,7 +13,7 @@ import { toast } from "react-toastify"
 
 
 export default function AgentPage({params}: any): JSX.Element {
-  const { token, user } = useAuth()
+  const { token, user, getWallet } = useAuth()
   const { challengeId } = use(params) as any;
 
   console.log('🍎🍎🍎 AgentPage - params', {params, challengeId});
@@ -22,10 +22,11 @@ export default function AgentPage({params}: any): JSX.Element {
 
     useEffect(() => {
       const joinChallenge = async () => {
-        console.log('🍎🍎🍎joinChallenge', {challengeId});
+        console.log('🍎🍎🍎 joinChallenge', {challengeId});
         
         try {
           const result = await api.joinChallenge({challengeId: challengeId}, token)
+          // getUser()
           setChallenge(result)
 
         } catch (error: any) {
@@ -34,6 +35,10 @@ export default function AgentPage({params}: any): JSX.Element {
       }
       if(token) joinChallenge()
     }, [token])
+
+    useEffect(() => {
+      getWallet()
+    }, [challenge])
 
     console.log('🔑🔑🔑 AgentPage - params - token', {params, token});
     

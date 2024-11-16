@@ -10,9 +10,11 @@ import ChallengesList from "@/components/ChallengesList";
 
 export default function Home() {
   const [show, setShow] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<any>();
 
   const handleChallengeCreated = (challenge: any) => {
     setShow(false);
+    setRefresh(new Date().getTime());
     // You might want to refresh the challenges list here
   };
   const handleToggleChallengeForm = (e: any) => {
@@ -30,7 +32,7 @@ export default function Home() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-6">
         <CreateChallengeButton onClick={handleToggleChallengeForm} />
-        <ChallengesList />
+        <ChallengesList refresh={refresh} />
       </main>
       <Footer />
     </div>

@@ -5,8 +5,13 @@ import { usePathname } from 'next/navigation'
 import { IoHomeOutline, IoWalletOutline } from 'react-icons/io5'
 import { RiRobot2Line } from 'react-icons/ri'
 import { MdLeaderboard } from 'react-icons/md'
+import { useAuth } from '@/context/AuthContext'
+import { toast } from 'react-toastify'
 
 export default function Footer(): JSX.Element {
+
+  const {user, myChallenge} = useAuth()
+
   const pathname = usePathname()
 
   const getTabStyle = (path: string) => {
@@ -27,17 +32,20 @@ export default function Footer(): JSX.Element {
         
         <div className="w-px h-8 bg-purple-100" /> {/* Separator */}
         
-        <Link href="/agent" className={getTabStyle('/agent')}>
+        <Link href={myChallenge ? `/agent/${myChallenge}` : '#'} className={getTabStyle('/agent')} onClick={myChallenge ? ()=>{} : (e: any) => {
+          e.preventDefault()
+          toast.error('join a Challenge to Access the Agent!')
+        }}>
           <RiRobot2Line className="text-xl mb-1" />
           <span className="text-xs font-medium">AI Agent</span>
         </Link>
         
         <div className="w-px h-8 bg-purple-100" /> {/* Separator */}
         
-        <Link href="/leaderboard" className={getTabStyle('/leaderboard')}>
+        {/* <Link href="/leaderboard" className={getTabStyle('/leaderboard')}>
           <MdLeaderboard className="text-xl mb-1" />
           <span className="text-xs font-medium">Leaderboard</span>
-        </Link>
+        </Link> */}
         
         <div className="w-px h-8 bg-purple-100" /> {/* Separator */}
         

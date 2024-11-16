@@ -29,7 +29,9 @@ async function getWalletHandler(req: any, res: any) {
       }
     }
 
-    return res.status(200).json({ wallet_address });
+    const challengeId = (await admin.database().ref(`challenges/participants/users/${uid}`).once('value')).val()
+
+    return res.status(200).json({ wallet_address, challengeId });
   } catch (error) {
     console.error('Error in get Wallet Handler:', error);
     return res.status(500).json({ error: 'Errore interno del server' });
