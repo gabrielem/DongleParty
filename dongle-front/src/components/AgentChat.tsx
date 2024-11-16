@@ -19,10 +19,13 @@ export default function AgentChat({ challenge, myPartecipation }: Props): JSX.El
   const [message, setMessage] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   
-  const messages: Message[] = [
-    { me: true, message: "Ciao sono un utente", date: "11112" },
-    { bot: true, message: "Ciao sono il bot", date: "11114" },
-  ]
+  const [messages, setMessages] = useState<{ me?: boolean; bot?: boolean; message: string, date: any }[]>([]);
+
+
+//   const messages: Message[] = [
+//     { me: true, message: "Ciao sono un utente", date: "11112" },
+//     { bot: true, message: "Ciao sono il bot", date: "11114" },
+//   ]
 
   // Gestisce l'auto-resize della textarea
   useEffect(() => {
@@ -34,11 +37,21 @@ export default function AgentChat({ challenge, myPartecipation }: Props): JSX.El
     }
   }, [message])
 
+
+  const addItem = (bot?: boolean) => {
+    const how = bot ? {bot: true} : {me: true}
+    const newItem = { ...how, message, date: Date.now() };
+
+    setMessages((prevItems) => [...prevItems, newItem]);
+  };
+
   const handleSubmit = () => {
     if (!message.trim()) return
-    
+    addItem()
     console.log('Messaggio inviato:', message)
     setMessage('')
+
+
     
     // Reset altezza textarea
     if (textareaRef.current) {
