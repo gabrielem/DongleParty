@@ -2,12 +2,16 @@ import { useState } from "react";
 import ModalContent from "./UI/ModalContent";
 import ChallengeCardInfo from "./ChallengeCardInfo";
 import { ChallengeCardData, ChallengeDetail } from "@/modules/_types";
+import { useAuth } from "@/context/AuthContext";
 
 interface ChallengeCardProps {
   challenge: ChallengeCardData;
 }
 
 const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
+
+  const {myChallenge} = useAuth();
+
   const [show, setShow] = useState<boolean>(false);
   const [joinShow, setJoinShow] = useState<boolean>(false);
 
@@ -76,7 +80,7 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
         <div className="flex justify-between items-center mb-2">
           <div>
             <span className="text-gray-600">${challenge.startAmount}</span>
-            <span className="mx-2">→</span>
+            <span className="mx-2 text-black">→</span>
             <span className="text-gray-600">${challenge.targetAmount}</span>
           </div>
         </div>
@@ -93,6 +97,8 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
           </div>
           <div className="flex justify-between w-full">
             <div className="text-sm font-medium text-purple-600">Active!</div>
+
+            {myChallenge === challenge?.id ? <div className="text-sm font-medium text-purple-600">You Joined!</div> : null}
             {/* <button
               className="px-4 py-1 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
               onClick={handleJoinClick}
