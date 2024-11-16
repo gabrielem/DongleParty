@@ -8,6 +8,7 @@ import Footer from '@/components/Footer'
 import ModalContent from '@/components/UI/ModalContent'
 import AddChallengeForm from '@/components/AddChallengeForm'
 import { Challenge } from '@/types'
+import ChallengesList from '@/components/ChallengesList'
 
 export default function Home() {
   const [show, setShow] = useState<boolean>(false)
@@ -31,8 +32,8 @@ export default function Home() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-6">
         <CreateChallengeButton onClick={handleToggleChallnegeForm} />
-        <div className="my-6 border-t border-gray-300" />
-        <ChallengeList />
+        
+        <ChallengesList />
       </main>
       <Footer />
     </div>
