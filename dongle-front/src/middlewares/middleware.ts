@@ -11,6 +11,8 @@ function createHttpError(message: string, status: number) {
 
 function getTokenFromHeader(headers: any) {
     const authHeader = headers.authorization;
+    console.log('🔑🔑🔑 getTokenFromHeader', authHeader);
+    
     if (!authHeader) {
       console.log('Not authenticated. No Auth header', headers)
       throw createHttpError('Not authenticated. No Auth header', 401)
@@ -68,7 +70,7 @@ export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResp
       try {
         const token = getTokenFromHeader(req.headers)
         const { decodedToken } = await doAuth(token)
-        const userRecord = await admin.auth().getUserByEmail(decodedToken?.email);
+        // const userRecord = await admin.auth().getUserByEmail(decodedToken?.email);
         // const hasMFA = userRecord?.multiFactor?.enrolledFactors?.length
   
         req.authId = decodedToken.uid

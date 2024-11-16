@@ -7,7 +7,7 @@ const Button: React.FC<any> = ({
   children,
   IconStart, 
   IconEnd, 
-  className = 'btn btn-primary', 
+  className = ' bg-green-600 text-white hover:bg-green-700 w-full p-2 rounded-md', 
   onClick,
   ...props 
 }) => {
