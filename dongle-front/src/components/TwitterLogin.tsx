@@ -9,6 +9,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 import { FaTwitter } from "react-icons/fa"
+import Header from "./Header"
 
 
 const TwitterLogin = () => {
@@ -23,9 +24,15 @@ const TwitterLogin = () => {
   }
   return (
     <div>
-        <button className="rounded-md bg-sky-500 text-white p-1" onClick={handleClick}>
-            <FaTwitter />Enter
-        </button>
+      <Header />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="p-2">
+          <button className="rounded-md bg-sky-500 text-white p-3 w-full text-lg" onClick={handleClick}>
+            <FaTwitter className="inline" /> Enter
+          </button>
+        </div>
+      </div>
+
     </div>
   )
 }
