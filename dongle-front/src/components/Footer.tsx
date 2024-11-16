@@ -2,36 +2,48 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { IoHomeOutline, IoWalletOutline } from 'react-icons/io5'
+import { RiRobot2Line } from 'react-icons/ri'
+import { MdLeaderboard } from 'react-icons/md'
 
 export default function Footer(): JSX.Element {
   const pathname = usePathname()
 
+  const getTabStyle = (path: string) => {
+    return `flex flex-col items-center px-3 py-2 ${
+      pathname === path 
+        ? 'text-purple-600 border-t-2 border-purple-600' 
+        : 'text-gray-500 hover:text-purple-400'
+    } transition-colors duration-200`
+  }
+
   return (
-    <footer className="bg-white border-t fixed bottom-0 w-full">
-      <nav className="flex justify-around items-center h-16">
-        <Link 
-          href="/"
-          className={`flex flex-col items-center ${
-            pathname === '/' ? 'text-purple-600' : 'text-gray-500'
-          }`}
-        >
-          <span className="text-sm">Party</span>
+    <footer className="bg-white border-t border-purple-100 fixed bottom-0 w-full shadow-lg">
+      <nav className="flex justify-between items-center h-16 max-w-screen-xl mx-auto px-4">
+        <Link href="/" className={getTabStyle('/')}>
+          <IoHomeOutline className="text-xl mb-1" />
+          <span className="text-xs font-medium">Home</span>
         </Link>
-        <Link 
-          href="/agent"
-          className={`flex flex-col items-center ${
-            pathname === '/agent' ? 'text-purple-600' : 'text-gray-500'
-          }`}
-        >
-          <span className="text-sm">Agent</span>
+        
+        <div className="w-px h-8 bg-purple-100" /> {/* Separator */}
+        
+        <Link href="/agent" className={getTabStyle('/agent')}>
+          <RiRobot2Line className="text-xl mb-1" />
+          <span className="text-xs font-medium">AI Agent</span>
         </Link>
-        <Link 
-          href="/wallet"
-          className={`flex flex-col items-center ${
-            pathname === '/wallet' ? 'text-purple-600' : 'text-gray-500'
-          }`}
-        >
-          <span className="text-sm">Wallet</span>
+        
+        <div className="w-px h-8 bg-purple-100" /> {/* Separator */}
+        
+        <Link href="/leaderboard" className={getTabStyle('/leaderboard')}>
+          <MdLeaderboard className="text-xl mb-1" />
+          <span className="text-xs font-medium">Leaderboard</span>
+        </Link>
+        
+        <div className="w-px h-8 bg-purple-100" /> {/* Separator */}
+        
+        <Link href="/wallet" className={getTabStyle('/wallet')}>
+          <IoWalletOutline className="text-xl mb-1" />
+          <span className="text-xs font-medium">Wallet</span>
         </Link>
       </nav>
     </footer>
