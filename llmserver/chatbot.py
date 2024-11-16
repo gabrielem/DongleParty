@@ -1,4 +1,3 @@
-import json
 import os
 import sys
 import time
@@ -49,20 +48,21 @@ def initialize_agent():
 
     for tool in tools:
         print(tool.name)
-        
 
     # Store buffered conversation history in memory.
     memory = MemorySaver()
     config = {"configurable": {"thread_id": "CDP Agentkit Chatbot Example!"}}
 
     # Create ReAct Agent using the LLM and CDP Agentkit tools.
-    return create_react_agent(
-        llm,
-        tools=tools,
-        checkpointer=memory,
-        state_modifier=
-        "You are a helpful agent that can interact onchain using the Coinbase Developer Platform Agentkit. You are empowered to interact onchain using your tools. If you ever need funds, you can request them from the faucet if you are on network ID `base-sepolia`. If not, you can provide your wallet details and request funds from the user. If someone asks you to do something you can't do with your currently available tools, you must say so, and encourage them to implement it themselves using the CDP SDK + Agentkit, recommend they go to docs.cdp.coinbase.com for more informaton. Be concise and helpful with your responses. Refrain from restating your tools' descriptions unless it is explicitly requested.",
-    ), config
+    return (
+        create_react_agent(
+            llm,
+            tools=tools,
+            checkpointer=memory,
+            state_modifier="You are a helpful agent that can interact onchain using the Coinbase Developer Platform Agentkit. You are empowered to interact onchain using your tools. If you ever need funds, you can request them from the faucet if you are on network ID `base-sepolia`. If not, you can provide your wallet details and request funds from the user. If someone asks you to do something you can't do with your currently available tools, you must say so, and encourage them to implement it themselves using the CDP SDK + Agentkit, recommend they go to docs.cdp.coinbase.com for more informaton. Be concise and helpful with your responses. Refrain from restating your tools' descriptions unless it is explicitly requested.",
+        ),
+        config,
+    )
 
 
 # Autonomous Mode
@@ -79,7 +79,8 @@ def run_autonomous_mode(agent_executor, config, interval=10):
 
             # Run agent in autonomous mode
             for chunk in agent_executor.stream(
-                {"messages": [HumanMessage(content=thought)]}, config):
+                {"messages": [HumanMessage(content=thought)]}, config
+            ):
                 if "agent" in chunk:
                     print(chunk["agent"]["messages"][0].content)
                 elif "tools" in chunk:
@@ -106,7 +107,8 @@ def run_chat_mode(agent_executor, config):
 
             # Run agent with the user's input in chat mode
             for chunk in agent_executor.stream(
-                {"messages": [HumanMessage(content=user_input)]}, config):
+                {"messages": [HumanMessage(content=user_input)]}, config
+            ):
                 if "agent" in chunk:
                     print(chunk["agent"]["messages"][0].content)
                 elif "tools" in chunk:
@@ -126,8 +128,7 @@ def choose_mode():
         print("1. chat    - Interactive chat mode")
         print("2. auto    - Autonomous action mode")
 
-        choice = input(
-            "\nChoose a mode (enter number or name): ").lower().strip()
+        choice = input("\nChoose a mode (enter number or name): ").lower().strip()
         if choice in ["1", "chat"]:
             return "chat"
         elif choice in ["2", "auto"]:
