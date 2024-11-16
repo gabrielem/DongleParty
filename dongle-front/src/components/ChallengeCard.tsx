@@ -79,9 +79,9 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
       >
         <div className="flex justify-between items-center mb-2">
           <div>
-            <span className="text-gray-600">${challenge.startAmount}</span>
+            <span className="text-gray-600">ETH {challenge.startAmount}</span>
             <span className="mx-2 text-black">→</span>
-            <span className="text-gray-600">${challenge.targetAmount}</span>
+            <span className="text-gray-600">ETH {challenge.targetAmount}</span>
           </div>
         </div>
         <div className="space-y-2">

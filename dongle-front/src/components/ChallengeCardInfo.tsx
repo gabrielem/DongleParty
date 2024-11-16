@@ -11,6 +11,9 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
     return `${position}${suffixes[position]}`;
   };
 
+  console.log("🔑 🔑 🔑 ChallengeCardInfo - challenge", challenge);
+  
+
   return (
     <div className="flex flex-col h-full bg-gray-50">
       {/* Header */}
@@ -80,10 +83,11 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                   </th>
                 </tr>
               </thead>
-              {challenge.participants.length > 0 ? (
+              {Object.keys(challenge.participants).length > 0 ? (
                 <tbody className="divide-y divide-gray-200">
-                  {challenge.participants.map((participant) => (
-                    <tr
+                  {challenge.participants.map((participant) => {
+                    return (
+                      <tr
                       key={participant.twitterHandle}
                       className="hover:bg-gray-50"
                     >
@@ -101,7 +105,8 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                         ${participant.holdings}
                       </td>
                     </tr>
-                  ))}
+                    )
+                  })}
                 </tbody>
               ) : (
                 <tbody>
