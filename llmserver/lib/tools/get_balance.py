@@ -37,10 +37,10 @@ def get_wallet_balance(wallet_address: str) -> str:
 
         balances = get_1inch_balances(wallet_address)
 
-        filtered_balances = list(filter(lambda x: int(x["balance"]) > 0, balances))
+        # filtered_balances = list(filter(lambda x: int(x["balance"]) > 0, balances))
         formatted_lines = map(
             lambda x: f"{x['name']} ({x['symbol']}): {Decimal(x['balance']) / (Decimal(10)** Decimal(x['decimals']))}",
-            filtered_balances,
+            balances,
         )
 
         formatted_balances = "\n".join(formatted_lines)
