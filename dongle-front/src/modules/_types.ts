@@ -46,9 +46,9 @@ interface Challenge {
 }
 
 interface Participant {
-  position: number;
   twitterHandle: string;
-  holdings: number;
+  balance: number;
+  holdings?: number;
 }
 
 interface ChallengeDetail {

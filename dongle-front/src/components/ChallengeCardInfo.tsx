@@ -1,31 +1,14 @@
-import { useRouter } from "next/navigation";
 import { ChallengeCardInfoProps } from "@/modules/_types";
-import Button from "@/components/UI/Button";
-import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 
 const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
   const { user } = useAuth();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const getOrdinal = (position: number): string => {
     if (position > 3) return `${position}th`;
     const suffixes = ["th", "st", "nd", "rd"];
     return `${position}${suffixes[position]}`;
-  };
-
-  const handleJoin = async () => {
-    setLoading(true);
-    try {
-      // API call to join challenge
-      // await api.joinChallenge(challenge.id);
-    } catch (error) {
-      console.error("Error joining challenge:", error);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -107,7 +90,7 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                       <td className="px-3 py-2 text-sm border-r border-gray-200">
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-purple-600 min-w-[24px]">
-                            {getOrdinal(participant.position)}
+                            {getOrdinal(participant.balance)}
                           </span>
                           <span className="text-gray-600">
                             @{participant.twitterHandle}
@@ -144,7 +127,15 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
             href={`/agent/${challenge.id}`}
             className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
           >
-            {!challenge?.participants?.[user?.uid] ? "Join Challenge" : "Go to Agent AI"}
+            {!challenge?.participants?.[user?.uid] ? (
+              "Join Challenge"
+            ) : (
+              <>
+                {challenge?.participants?.[user?.uid]?.balance
+                  ? "Go to Agent AI"
+                  : "Go to Wallet"}
+              </>
+            )}
           </Link>
         }
       </div>
