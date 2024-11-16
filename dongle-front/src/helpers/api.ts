@@ -38,7 +38,11 @@ const api = {
     // joinChallenge
     async joinChallenge (payload: any, token: string | null | undefined) {
         return buildTheRequest({method: 'post', url: '/joinChallenge', payload, token})
-    }
+    },
+    // setMessage
+    async setMessage (payload: any, token: string | null | undefined) {
+        return buildTheRequest({method: 'post', url: '/setMessage', payload, token})
+    },
     
     
 }

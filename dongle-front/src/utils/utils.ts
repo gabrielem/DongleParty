@@ -1,3 +1,6 @@
+import { formatDistanceToNow, format } from "date-fns";
+import { it } from "date-fns/locale"; // Importa la lingua italiana (se necessario)
+
 export const validateEmail = (email: string): string | null => {
     if (!email || !email.trim()) {
       return 'L\'indirizzo email non può essere vuoto.'
@@ -34,3 +37,26 @@ export const getErrorMessage = (error: any) => {
         return "Server error"
     }
   }
+
+
+export const formatTimestampForMessages = (timestamp: number, locale = 'en') => {  
+  const now = new Date();
+  const date = new Date(timestamp);
+
+  const distance = formatDistanceToNow(date, {
+    addSuffix: true,
+    locale: locale === 'it' ? it : undefined, // Usa la lingua specificata
+  });
+
+  // Se il messaggio è di più di un giorno fa, mostra anche la data completa
+  const isMoreThanADay = now.getTime() - date.getTime() > 24 * 60 * 60 * 1000;
+
+  if (isMoreThanADay) {
+    const formattedDate = format(date, "PPpp", {
+      locale: locale === 'it' ? it : undefined,
+    });
+    return `${distance} (${formattedDate})`;
+  }
+
+  return distance; // Mostra "5 minuti fa", "2 ore fa", ecc.
+}

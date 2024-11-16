@@ -5,7 +5,6 @@ async function getBalancesHandler(req: any, res: any) {
   try {
 
     // arbitrum: 42161; || base: 8453
-
     const {chain, address} = req?.body 
     if (!chain || !address) {
         return res.status(400).json({ error: 'Missing required fields, chain, and address are required' });
@@ -19,7 +18,6 @@ async function getBalancesHandler(req: any, res: any) {
       params: {},
       paramsSerializer: { indexes: null }
     };
-
 
     try {
         const response = await axios.get(url, config);

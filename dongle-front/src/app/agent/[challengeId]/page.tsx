@@ -16,6 +16,8 @@ export default function AgentPage({params}: any): JSX.Element {
   const { token, user } = useAuth()
   const { challengeId } = use(params) as any;
 
+  console.log('🍎🍎🍎 AgentPage - params', {params, challengeId});
+  
   const [challenge, setChallenge] = useState<any>(null)
 
     useEffect(() => {
@@ -41,8 +43,8 @@ export default function AgentPage({params}: any): JSX.Element {
         <Header />
         {myPartecipation 
           ? (<div className="w-full h-full flex-1">
-            {!myPartecipation?.balance
-              ? <AgentChat challenge={challenge} myPartecipation={myPartecipation} />
+            {myPartecipation?.balance
+              ? <AgentChat challengeId={challengeId} challenge={challenge} myPartecipation={myPartecipation} />
               : <DepositOnWallet challenge={challenge} myPartecipation={myPartecipation} />
             }
           </div>) 
