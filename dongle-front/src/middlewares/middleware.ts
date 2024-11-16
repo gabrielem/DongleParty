@@ -11,6 +11,8 @@ function createHttpError(message: string, status: number) {
 
 function getTokenFromHeader(headers: any) {
     const authHeader = headers.authorization;
+    console.log('🔑🔑🔑 getTokenFromHeader', authHeader);
+    
     if (!authHeader) {
       console.log('Not authenticated. No Auth header', headers)
       throw createHttpError('Not authenticated. No Auth header', 401)
