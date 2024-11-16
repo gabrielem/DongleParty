@@ -6,3 +6,10 @@ export interface Challenge {
   completion: number;
   status: 'active' | 'completed' | 'cancelled';
 }
+
+export interface ModalContentProps {
+  children: React.ReactNode;
+  overlayClassName?: string;
+  modalClassName?: string;
+  handleShow: (show: boolean) => void;
+}

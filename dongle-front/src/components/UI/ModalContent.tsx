@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalContentBox from '@/components/ModalContentBox';
+import ModalContentBox from '@/components/UI/ModalContentBox';
 import { ModalContentProps } from '@/modules/_types';
 
 const ModalContent: React.FC<ModalContentProps> = ({
