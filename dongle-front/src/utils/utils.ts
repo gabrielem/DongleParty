@@ -12,6 +12,10 @@ export const validateEmail = (email: string): string | null => {
     return null
 }
 
+export const formatBalance = (balance: string, decimals: number): string => {
+  const value = parseFloat(balance) / Math.pow(10, decimals);
+  return value.toFixed(value < 0.01 ? 8 : 4);
+};
 
 export const getErrorMessage = (error: any) => {
     // console.log('❌❌❌ getErrorMessage', error)

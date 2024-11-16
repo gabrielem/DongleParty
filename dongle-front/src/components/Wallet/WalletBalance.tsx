@@ -1,38 +1,63 @@
 // components/Wallet/WalletBalance.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-
-interface Token {
-  symbol: string;
-  name: string;
-  balance: number;
-  value: number;
-  icon?: string;
-}
+import { useAuth } from "@/context/AuthContext";
+import api from "@/helpers/api";
+import { TokenBalance } from "@/modules/_types";
+import { toast } from "react-toastify";
+import { formatBalance } from "@/utils/utils";
 
 const WalletBalance = () => {
+  const { wallet } = useAuth();
   const [hideBalances, setHideBalances] = useState(false);
+  const [balances, setBalances] = useState<TokenBalance[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Temporary mock data
-  const tokens: Token[] = [
-    {
-      symbol: "ETH",
-      name: "Ethereum",
-      balance: 1.234,
-      value: 2345.67,
-      icon: "⟠",
-    },
-    { symbol: "USDT", name: "Tether", balance: 500.0, value: 500.0, icon: "₮" },
-    {
-      symbol: "USDC",
-      name: "USD Coin",
-      balance: 750.5,
-      value: 750.5,
-      icon: "$",
-    },
-  ];
+  useEffect(() => {
+    const fetchBalances = async () => {
+      if (!wallet) return;
+      
+      try {
+        const result = await api.getBalances({ wallet });
+        // Filter out tokens with zero balance and sort by balance
+        const filteredBalances = result
+          .filter((token: TokenBalance) => parseFloat(token.balance) > 0)
+          .sort((a: TokenBalance, b: TokenBalance) => 
+            parseFloat(b.balance) - parseFloat(a.balance)
+          );
+        setBalances(filteredBalances);
+      } catch (error: any) {
+        toast.error(typeof error === "string" ? error : error.message || 'Error fetching balances');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const totalValue = tokens.reduce((sum, token) => sum + token.value, 0);
+    fetchBalances();
+  }, [wallet]);
+
+
+  // For now, we'll just show the balance as value since we don't have price data
+  const totalValue = balances.reduce((sum, token) => 
+    sum + parseFloat(formatBalance(token.balance, token.decimals)), 
+    0
+  );
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-8">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+          <div className="h-12 bg-gray-200 rounded w-1/2"></div>
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-20 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -51,37 +76,51 @@ const WalletBalance = () => {
           </button>
         </div>
         <div className="text-2xl font-bold text-purple-600">
-          {hideBalances ? "****" : `$${totalValue.toFixed(2)}`}
+          {hideBalances ? "****" : totalValue.toFixed(4)}
         </div>
       </div>
 
       <div className="divide-y divide-gray-100">
-        {tokens.map((token) => (
-          <div
-            key={token.symbol}
-            className="p-4 hover:bg-gray-50 transition-colors"
-          >
-            <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
-                  {token.icon}
+        {balances.length === 0 ? (
+          <div className="p-4 text-center text-gray-500">
+            No tokens found
+          </div>
+        ) : (
+          balances.map((token) => (
+            <div
+              key={token.address}
+              className="p-4 hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex justify-between items-center">
+                <div className="flex items-center space-x-3">
+                  {token.logoURI ? (
+                    <img 
+                      src={token.logoURI} 
+                      alt={token.symbol}
+                      className="w-8 h-8 rounded-full"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
+                      {token.symbol[0]}
+                    </div>
+                  )}
+                  <div>
+                    <div className="font-medium text-gray-900">{token.name}</div>
+                    <div className="text-sm text-gray-500">{token.symbol}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-medium text-gray-900">{token.name}</div>
-                  <div className="text-sm text-gray-500">{token.symbol}</div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="font-medium text-gray-900">
-                  {hideBalances ? "****" : `${token.balance} ${token.symbol}`}
-                </div>
-                <div className="text-sm text-gray-500">
-                  {hideBalances ? "****" : `$${token.value.toFixed(2)}`}
+                <div className="text-right">
+                  <div className="font-medium text-gray-900">
+                    {hideBalances 
+                      ? "****" 
+                      : `${formatBalance(token.balance, token.decimals)} ${token.symbol}`
+                    }
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

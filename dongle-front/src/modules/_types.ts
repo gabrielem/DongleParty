@@ -77,7 +77,7 @@ interface TokenAction {
   fromAddress: string;
   toAddress: string;
   amount: string;
-  direction: 'In' | 'Out' | 'On';
+  direction: "In" | "Out" | "On";
 }
 
 interface TransactionDetails {
@@ -85,7 +85,7 @@ interface TransactionDetails {
   chainId: number;
   blockNumber: number;
   blockTimeSec: number;
-  status: 'completed' | 'pending' | 'failed';
+  status: "completed" | "pending" | "failed";
   type: string;
   tokenActions: TokenAction[];
   fromAddress: string;
@@ -100,10 +100,24 @@ interface Transaction {
   address: string;
   type: number;
   rating: string;
-  direction: 'in' | 'out';
+  direction: "in" | "out";
   details: TransactionDetails;
   id: string;
   eventOrderInTransaction: number;
+}
+
+interface TokenBalance {
+  address: string;
+  balance: string;
+  chainId: number;
+  decimals: number;
+  name: string;
+  symbol: string;
+  providers: string[];
+  logoURI?: string;
+  eip2612: boolean;
+  tags: string[];
+  rating: number;
 }
 
 export type {
@@ -118,4 +132,5 @@ export type {
   Transaction,
   TransactionDetails,
   TokenAction,
+  TokenBalance,
 };
