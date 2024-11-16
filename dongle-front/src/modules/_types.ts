@@ -1,3 +1,5 @@
+import { NextApiRequest } from "next";
+
 interface FirebaseConfig {
     apiKey: string | undefined;
     authDomain: string | undefined;
@@ -13,8 +15,22 @@ interface FirebaseConfig {
     password: string
   }
 
+interface ExtendedNextApiRequest extends NextApiRequest {
+    originalUrl?: string
+    isAdmin?: boolean
+    ip?: string
+    authId?: string
+    uid?: string
+    userFirebase?: any
+    user: any 
+    isDashboard?: boolean
+    isApi?: boolean
+    userData?: any
+    apiAuthKey?: any
+  }
   export type {
     FirebaseConfig,
     IFormLogin,
+    ExtendedNextApiRequest
     
   }  

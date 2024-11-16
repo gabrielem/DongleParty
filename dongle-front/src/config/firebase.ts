@@ -15,9 +15,6 @@ const FIREBASE_CONFIG: FirebaseConfig = {
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
 }
 
-console.log('FIREBASE_CONFIG:', FIREBASE_CONFIG);
-
-
 const firebaseApp = !getApps().length ? initializeApp(FIREBASE_CONFIG) : getApps()[0]
 export const app = firebaseApp
 export const db = getDatabase(app);
