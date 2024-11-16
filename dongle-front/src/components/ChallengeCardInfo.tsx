@@ -12,7 +12,7 @@ const ChallengeCardInfo = ({ challenge }: any) => {
     return <><b>{position}</b><span className="text-xs">{suffixes[position]}</span></>;
   };
 
-  console.log("🔑 🔑 🔑 ChallengeCardInfo - challenge", challenge);
+  // console.log("🔑 🔑 🔑 ChallengeCardInfo - challenge", challenge);
   
   let countRank = 0
 
