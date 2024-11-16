@@ -103,23 +103,23 @@ async function getBalancesHandler(req: any, res: any) {
 
     try {
         const response = await axios.get(url, config);
-        console.log('response.data', response.data);
+        // console.log('response.data', response.data);
         const onlyBalances = response.data
         let addresses = []
         for (const key in onlyBalances) {
           if (onlyBalances.hasOwnProperty(key)) { 
-            console.log(`Indirizzo: ${key}, Valore: ${onlyBalances[key]}`);
+            // console.log(`Indirizzo: ${key}, Valore: ${onlyBalances[key]}`);
             addresses.push(key)
           }
         }
 
         
-        console.log('addresses', addresses);
+        // console.log('addresses', addresses);
         const tikers = await getTickers(addresses, chain) as any
-        console.log('tikers:', tikers);
+        // console.log('tikers:', tikers);
 
         const prices = await getPrices(addresses, chain) as any
-        console.log('--prices:', prices);
+        // console.log('--prices:', prices);
 
         let balances = []
         for (const key in tikers) {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { FiCopy } from "react-icons/fi";
 import { IoMdInformationCircle } from "react-icons/io";
@@ -9,52 +9,55 @@ import { toast } from "react-toastify";
 import api from "@/helpers/api";
 import Loading from "./UI/Loading";
 
-interface DepositOnWalletProps {
-  challenge: Challenge;
-  myPartecipation: {
-    balance?: number;
-    // Add other participation properties if needed
-  };
-}
 
-export default function DepositOnWallet({ challenge, myPartecipation }: DepositOnWalletProps) {
+export default function DepositOnWallet({ challenge, challengeId, myPartecipation }: any) {
   const { wallet, token } = useAuth();
   const [qrCodeValue, setQrCodeValue] = useState<string>("");
   const [loading, setLoading] = useState(true)
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null); 
 
 
 
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const result = await api.getBalances({address: wallet}); 
-        // console.log('->result', result);
+        const result = await api.getBalances({ address: wallet });
+        console.log("->result", result);
 
         const targetAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
         const adrBalance = result.find((item: any) => item.address === targetAddress);
-        console.log('->adrBalance', adrBalance);
-        if (Number(adrBalance.balance) > 0) {
-          toast.success('Deposit received');
-          await api.setBalance({challengeId: challenge.id, balance: adrBalance.balance}, token);
+        console.log("->adrBalance", adrBalance);
+
+        if (Number(adrBalance?.balance) > 0) {
+          // toast.success("Deposit received");
+          await api.setBalance({ challengeId, balance: adrBalance.balance }, token);
           setLoading(false);
+
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+          }
         }
       } catch (err: any) {
-        toast.error(typeof err === "string" ? err : err.message || 'Error fetching balance');
+        toast.error(typeof err === "string" ? err : err.message || "Error fetching balance");
       }
     };
 
     const startPolling = () => {
-      fetchBalance(); 
-      const timeout = setTimeout(startPolling, 3000);  
-      return () => clearTimeout(timeout); 
+      fetchBalance();
+      timeoutRef.current = setTimeout(startPolling, 3000); 
     };
 
-    const cleanup = startPolling();
+    startPolling(); 
 
     return () => {
-      cleanup(); 
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
     };
-  }, []);
+  }, [wallet, challengeId, token]); // Dipendenze corrette
 
 
   useEffect(() => {

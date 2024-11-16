@@ -50,7 +50,7 @@ export default function AgentPage({params}: any): JSX.Element {
           ? (<div className="w-full h-full flex-1">
             {myPartecipation?.balance
               ? <AgentChat challengeId={challengeId} challenge={challenge} myPartecipation={myPartecipation} />
-              : <DepositOnWallet challenge={challenge} myPartecipation={myPartecipation} />
+              : <DepositOnWallet challengeId={challengeId} challenge={challenge} myPartecipation={myPartecipation} />
             }
           </div>) 
           : <div><Loading /></div>
