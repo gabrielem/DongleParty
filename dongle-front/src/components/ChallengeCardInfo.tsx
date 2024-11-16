@@ -129,7 +129,9 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                 href={`/agent/${challenge.id}`}
                 className="block w-full bg-purple-600 text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
               >
-                Go to Agent AI
+                {challenge?.participants?.[user?.uid]?.balance
+                      ? "Go to Agent AI"
+                      : "Go to Wallet"}
               </Link>
               : <>
                 <div className="text-center text-black p-1">
