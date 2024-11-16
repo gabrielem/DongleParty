@@ -14,6 +14,7 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
     loading, 
   } = useAuth();
 
+  console.log('user:', user);
   
   return (
     <>
@@ -21,10 +22,11 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
         <Loading />
       ) : (
         <>
-            {!user
+        {children}
+            {/* {!user
                 ? <FormLogin />
                 : children
-            }
+            } */}
         </>
       )}
     </>
