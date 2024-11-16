@@ -1,18 +1,18 @@
-import { ChallengeCardInfoProps } from "@/modules/_types";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 
-const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
+const ChallengeCardInfo = ({ challenge }: any) => {
   const { user, myChallenge } = useAuth();
 
-  const getOrdinal = (position: number): string => {
-    if (position > 3) return `${position}th`;
+  const getOrdinal = (position: number) => {
+    if (position > 3) return <><b>{position}</b><span className="text-xs">th</span></>;
     const suffixes = ["th", "st", "nd", "rd"];
-    return `${position}${suffixes[position]}`;
+    return <><b>{position}</b><span className="text-xs">{suffixes[position]}</span></>;
   };
 
   console.log("🔑 🔑 🔑 ChallengeCardInfo - challenge", challenge);
   
+  let countRank = 0
 
   return (
     <div className="flex flex-col h-full bg-gray-50">
@@ -35,12 +35,12 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
                 {challenge.name}
               </span>
             </div>
-            <div className="bg-white p-2 rounded-lg shadow-sm flex justify-between items-center">
+            {/* <div className="bg-white p-2 rounded-lg shadow-sm flex justify-between items-center">
               <span className="text-sm text-gray-600">Prize Pool:</span>
               <span className="text-2xl font-bold text-purple-600">
                 ${challenge.prize}
               </span>
-            </div>
+            </div> */}
           </div>
 
           {/* Amount Info */}
@@ -49,14 +49,14 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
               <div className="text-center">
                 <div className="text-xs text-gray-600 mb-1">Start Amount</div>
                 <div className="text-sm text-purple-600 font-semibold">
-                  ${challenge.startAmount}
+                  ETH {challenge.startAmount}
                 </div>
               </div>
               <div className="h-px w-16 bg-purple-200 mx-4" />
               <div className="text-center">
                 <div className="text-xs text-gray-600 mb-1">Target Amount</div>
                 <div className="text-sm text-purple-600 font-semibold">
-                  ${challenge.targetAmount}
+                  ETH {challenge.targetAmount}
                 </div>
               </div>
             </div>
@@ -85,24 +85,26 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
               </thead>
               {Object.keys(challenge.participants).length > 0 ? (
                 <tbody className="divide-y divide-gray-200">
-                  {challenge.participants.map((participant) => {
+                  {Object.keys(challenge.participants).map((key: any) => {
+                    const participant = challenge.participants[key];
+                    countRank ++ 
                     return (
                       <tr
-                      key={participant.twitterHandle}
+                      key={key}
                       className="hover:bg-gray-50"
                     >
                       <td className="px-3 py-2 text-sm border-r border-gray-200">
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-purple-600 min-w-[24px]">
-                            {getOrdinal(participant.balance)}
+                            {getOrdinal(countRank)}
                           </span>
                           <span className="text-gray-600">
-                            @{participant.twitterHandle}
+                            @{participant?.twitterHandler}
                           </span>
                         </div>
                       </td>
                       <td className="px-3 py-2 text-sm text-gray-900 text-right font-medium">
-                        ${participant.holdings}
+                        ${participant.balance}
                       </td>
                     </tr>
                     )
