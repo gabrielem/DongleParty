@@ -20,7 +20,7 @@ export default function WalletPage() {
     const getHistory = async () => {
       setLoadingHistory(true)
       try {
-        const result = await api.getHistory({wallet: "0x6d279Ae7Bd044870C59D24FaE54b0d271fB823F1"}, token)
+        const result = await api.getHistory({wallet}, token)
         console.log('--> getHistory', { result });
         setHistory(result?.items)
         
