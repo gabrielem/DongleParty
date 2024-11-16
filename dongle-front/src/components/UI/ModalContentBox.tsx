@@ -32,7 +32,7 @@ const ModalContentBox: React.FC<ModalContentPropsExtended> = ({
           className="absolute top-2 right-2 bg-primary bg-opacity-100 rounded-full p-1 z-10"
           aria-label="Close modal"
         >
-          <IoCloseCircleOutline className='text-3xl text-black' />
+          <IoCloseCircleOutline className='text-3xl text-black items-center' />
         </button>
         <div className="overflow-y-auto flex-grow">
           {children}
