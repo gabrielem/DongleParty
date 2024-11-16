@@ -22,15 +22,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Challenge form modal */}
       <ModalContent handleShow={{ show, setShow }}>
         <AddChallengeForm successCb={handleChallengeCreated} />
       </ModalContent>
-
+      {/* Main content */}
       <Header />
-
       <main className="flex-1 container mx-auto px-4 py-6">
         <CreateChallengeButton onClick={handleToggleChallengeForm} />
-
         <ChallengesList />
       </main>
       <Footer />
