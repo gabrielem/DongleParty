@@ -133,7 +133,7 @@ const ChallengeCardInfo = ({ challenge }: ChallengeCardInfoProps) => {
               </Link>
               : <>
                 <div className="text-center text-black p-1">
-                  you can Join only one Challenge at a time
+                  You can join only one Challenge at a time!!
                 </div>
               {/* <Link
                 href={`/agent/${myChallenge}`}
