@@ -72,12 +72,12 @@ const FormLogin = () => {
 
   return (
     <div
-      className="hero min-h-screen"
+      className="min-h-screen"
       style={{
         backgroundImage: "url(/bg-home.png)",
       }}>
 
-      <div className="hero-content bg-black bg-opacity-70 text-white rounded-md text-center">
+      <div className="w-full h-full bg-black bg-opacity-70 text-white rounded-md text-center">
         <div className="w-72 lg:w-96 lg:p-5">
           <div className="flex flex-col">
             <div className="flex justify-center">
@@ -113,7 +113,7 @@ const FormLogin = () => {
                     loading={isLoading}
                     onClick={handleSubmit}
                   >
-                    {!isRecovery ? 'ACCEDI' : 'INVIA'}
+                    {!isRecovery ? 'Login' : 'Send'}
                   </Button>
                 </div>
                 <div className="mt-6">
@@ -123,7 +123,7 @@ const FormLogin = () => {
                       className="text-white text-base label-text-alt link link-hover"
                       onClick={handleSetRecovery}
                     >
-                      {!isRecovery ? 'Recupero password?' : 'Torna al Login'}
+                      {!isRecovery ? 'Password recovery?' : 'Back to Login'}
                     </Link>
                   </label>
                 </div>
