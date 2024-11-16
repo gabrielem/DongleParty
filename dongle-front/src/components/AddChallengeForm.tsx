@@ -71,7 +71,7 @@ const AddChallengeForm = ({ successCb }: AddChallengeFormProps) => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg text-black">
+    <div className="max-w-md mx-auto p-6 bg-gray-400 rounded-lg shadow-lg text-black">
       <h1 className="text-2xl font-bold mb-6 text-center">Add a new Challenge</h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -91,7 +91,7 @@ const AddChallengeForm = ({ successCb }: AddChallengeFormProps) => {
 
         <div>
           <label className="label">
-            <span className="label-text">Starting Amount</span>
+            <span className="label-text">Start Amount</span>
           </label>
           <input
             type="number"
@@ -121,7 +121,7 @@ const AddChallengeForm = ({ successCb }: AddChallengeFormProps) => {
 
         <div>
           <label className="label">
-            <span className="label-text">Maximum Number of Participants</span>
+            <span className="label-text">Max num. of players</span>
           </label>
           <input
             type="number"
