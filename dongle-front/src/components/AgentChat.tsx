@@ -11,8 +11,8 @@ import Loading from "./UI/Loading";
 interface Message {
   me?: boolean;
   bot?: boolean;
-  message: string;
-  date: string;
+  message: string | { response: string };
+  date: number | string | Date;
 }
 
 interface Props {
@@ -34,7 +34,7 @@ export default function AgentChat({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [messages, setMessages] = useState<
-    { me?: boolean; bot?: boolean; message: string; date: any }[]
+    Message[]
   >([]);
 
   useEffect(() => {
