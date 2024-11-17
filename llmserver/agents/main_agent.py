@@ -67,5 +67,6 @@ def handle_message(agent, config, message: str):
     """Process a user message synchronously with the agent."""
     input_message = HumanMessage(content=message)
     result = agent.invoke({"messages": [input_message]}, config)
-
-    return result["messages"][-1].content
+    response = result["messages"][-1].content
+    print(response)
+    return response
