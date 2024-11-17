@@ -8,3 +8,5 @@ langgraph==0.2.50
 pydantic==2.9.2
 python-dotenv==1.0.1
 uvicorn==0.32.0
+web3
+requests

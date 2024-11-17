@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { Challenge } from "@/modules/_types";
+import { formatBalance } from "@/utils/utils";
 import Link from "next/link";
 
 const ChallengeCardInfo = ({ challenge }: any) => {
@@ -105,7 +106,7 @@ const ChallengeCardInfo = ({ challenge }: any) => {
                         </div>
                       </td>
                       <td className="px-3 py-2 text-sm text-gray-900 text-right font-medium">
-                        ${participant.balance}
+                        {formatBalance(participant.balance, 18)} ETH
                       </td>
                     </tr>
                     )

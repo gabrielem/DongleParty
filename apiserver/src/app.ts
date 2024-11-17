@@ -1,12 +1,7 @@
-import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
-import fastifySwagger from '@fastify/swagger';
-import fastifySwaggerUi from '@fastify/swagger-ui';
+import Fastify, { } from 'fastify';
 
-import { swaggerOptions } from './utils/swagger';
 import { tradeSchemas } from './modules/trade/trade.schema';
 import { tradeRoutes } from './modules/trade/trade.route';
-
-
 
 declare module 'fastify' {
     export interface FastifyInstance {
@@ -14,17 +9,22 @@ declare module 'fastify' {
     }
 }
 
-
-
 export default async function buildApp() {
-    const fastify = Fastify();
+    const fastify = Fastify({
+        logger: {
+            transport: {
+                target: "pino-pretty",
+                options: {
+                    translateTime: "HH:MM:ss Z",
+                    ignore: "pid,hostname",
+                },
+            },
+        }
+    });
     const allSchemas = [...tradeSchemas];
     for (const schema of allSchemas) {
         fastify.addSchema(schema);
     }
-
-    await fastify.register(fastifySwagger, swaggerOptions);
-    await fastify.register(fastifySwaggerUi, swaggerOptions);
 
 
     fastify.get('/healthcheck', function () {
