@@ -1,7 +1,7 @@
 import threading
 from fastapi import WebSocket
 from langchain_core.messages import HumanMessage
-from agents.main_agent import initialize_agent
+from agents.main_agent import handle_message, initialize_agent
 
 
 class AgentManager:
@@ -30,17 +30,18 @@ class AgentManager:
         """Stop an agent's thread."""
         if user_id in self.threads:
             del self.threads[user_id]
+        if user_id in self.agents:
+            del self.agents[user_id]
 
-    def agent_chat(self, user_id, message):
-        """Send a message to an agent."""
-        agent_executor, config = (
-            self.agents[user_id]["executor"],
-            self.agents[user_id]["config"],
-        )
-        for chunk in agent_executor.stream(
-            {"messages": [HumanMessage(content=message)]}, config
-        ):
-            print(chunk)
+    def process_message(self, user_id: str, message: str):
+        """Process a message for a specific user's agent."""
+        if user_id not in self.agents:
+            self.initialize_agent(user_id)
+            # raise Exception(f"Agent for user {user_id} is not initialized.")
+
+        agent = self.agents[user_id]["executor"]
+        config = self.agents[user_id]["config"]
+        return handle_message(agent, config, message)
 
     def run_chat_mode(self, agent_executor, config, user_id):
         """Run an agent in chat mode."""

@@ -1,6 +1,7 @@
 import { SDK, HashLock, SupportedChain } from "@1inch/cross-chain-sdk";
 import { solidityPackedKeccak256, randomBytes } from 'ethers';
 import { CDPWalletProviderConnector } from "./cdp-wallet";
+require("dotenv").config();
 
 // TODO write formal bug for this function being inaccessible
 function getRandomBytes32() {
@@ -40,7 +41,7 @@ export async function createTradeOrder(walletAddress: string, srcChainId: Suppor
 
 
 
-    const invert = true;
+    const invert = false //true;
 
     if (invert) {
         const temp = srcChainId;
@@ -57,7 +58,7 @@ export async function createTradeOrder(walletAddress: string, srcChainId: Suppor
         dstChainId,
         srcTokenAddress,
         dstTokenAddress,
-        amount: '1000000',
+        amount: amount,
         enableEstimate: true,
         walletAddress: walletAddress
     };
