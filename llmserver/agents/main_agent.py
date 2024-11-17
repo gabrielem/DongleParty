@@ -57,7 +57,7 @@ def initialize_agent(user_id: str):
             llm,
             tools=tools,
             checkpointer=memory,
-            state_modifier="You are a helpful agent that can interact onchain using the Coinbase Developer Platform Agentkit.",
+            state_modifier="You are a helpful agent that can interact onchain on Base mainnet.",
         ),
         config,
     )
