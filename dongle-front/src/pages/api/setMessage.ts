@@ -9,16 +9,16 @@ async function setMessageHandler(req: any, res: any) {
     const message = req?.body?.message
     const challengeId = req?.body?.challengeId
 
-    if(!message) throw "Message not found"
-    if(!challengeId) throw "Challenge ID not found"
-    
-    
+    if (!message) throw "Message not found"
+    if (!challengeId) throw "Challenge ID not found"
+
+
     // console.log('🔑🔑🔑 setMessageHandler', { uid, message });
-    
+
     const response = await axios.post(`https://donglellmapi.onrender.com/user/${uid}/message`, {
-        message: message.message
+      message: message.message
     }, { headers: { 'Content-Type': 'application/json', } });
-    
+
     // console.log('🔑🔑🔑 setMessageHandler RESPOSNE:', response.data);
 
     // await admin.database().ref(`challenges/lists/${challengeId}/participants/${uid}/messages`).push(message)
@@ -26,16 +26,16 @@ async function setMessageHandler(req: any, res: any) {
     //     bot: true, message: response.data, date: Date.now()
     // })
     await admin.database().ref(`challenges/lists/${challengeId}/participants/${uid}/messages`).update({
-        [admin.database().ref().push().key as string]: message,
-        [admin.database().ref().push().key as string]: {
-            bot: true,
-            message: response.data,
-            date: Date.now()
-        }
+      [admin.database().ref().push().key as string]: message,
+      [admin.database().ref().push().key as string]: {
+        bot: true,
+        message: response.data,
+        date: Date.now()
+      }
     });
-    
-    
-    
+
+
+
 
     return res.status(200).json(response.data);
   } catch (error) {
