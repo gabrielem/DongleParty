@@ -5,7 +5,7 @@ import { withAuth } from "@/middlewares/middleware";
 async function getChallengesHandler(req: any, res: any) {
   try {
     let result = (await admin.database().ref(`challenges/lists`).once('value')).val()
-    console.log('🔑🔑🔑 getChallengesHandler', {challenges: result});
+    // console.log('🔑🔑🔑 getChallengesHandler', {challenges: result});
     
     return res.status(200).json(result);
   } catch (error) {

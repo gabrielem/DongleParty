@@ -1,5 +1,5 @@
 import admin from '@/config/firebase-admin'
-import NextCors from 'nextjs-cors'
+// import NextCors from 'nextjs-cors'
 import { NextApiResponse } from 'next'
 import { ExtendedNextApiRequest } from '@/modules/_types';
 
@@ -11,7 +11,7 @@ function createHttpError(message: string, status: number) {
 
 function getTokenFromHeader(headers: any) {
     const authHeader = headers.authorization;
-    console.log('🔑🔑🔑 getTokenFromHeader', authHeader);
+    // console.log('🔑🔑🔑 getTokenFromHeader', authHeader);
     
     if (!authHeader) {
       console.log('Not authenticated. No Auth header', headers)
@@ -42,30 +42,30 @@ export async function doAuth(token: string) {
      }
  
    } catch (error) {
-     console.log('🔑🔑🔑 doAuth: error detected!', {token});
+     // console.log('🔑🔑🔑 doAuth: error detected!', {token});
      throw error
    }
  }
 
-export function withCors(handler: (req: ExtendedNextApiRequest, res: NextApiResponse) => Promise<void>) {
-    return async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
-      await NextCors(req, res, {
-        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-        origin: '*',
-        optionsSuccessStatus: 200,
-      })
+// export function withCors(handler: (req: ExtendedNextApiRequest, res: NextApiResponse) => Promise<void>) {
+//     return async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
+//       await NextCors(req, res, {
+//         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//         origin: '*',
+//         optionsSuccessStatus: 200,
+//       })
   
-      return handler(req, res)
-    }
-}
+//       return handler(req, res)
+//     }
+// }
 
 export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResponse) => Promise<void>, types?: string[]) {
     return async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
-      await NextCors(req, res, {
-        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-        origin: '*',
-        optionsSuccessStatus: 200,
-      })
+      // await NextCors(req, res, {
+      //   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+      //   origin: '*',
+      //   optionsSuccessStatus: 200,
+      // })
   
       try {
         const token = getTokenFromHeader(req.headers)
@@ -73,8 +73,8 @@ export function withAuth(handler: (req: ExtendedNextApiRequest, res: NextApiResp
         // const userRecord = await admin.auth().getUserByEmail(decodedToken?.email);
         // const hasMFA = userRecord?.multiFactor?.enrolledFactors?.length
   
-        req.authId = decodedToken.uid
-        req.uid = decodedToken.uid
+        req.authId = decodedToken?.uid
+        req.uid = decodedToken?.uid
         req.user = decodedToken
         
         const userData = {

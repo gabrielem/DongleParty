@@ -14,7 +14,7 @@ from lib.tools.search_symbol import buildSearchSymbolTool
 
 def initialize_agent(user_id: str):
     """Initialize the CDP Agent and store wallet data in Firebase."""
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatOpenAI(model="gpt-4o")
 
     wallet_data = get_wallet_data_by_user(user_id)
 
