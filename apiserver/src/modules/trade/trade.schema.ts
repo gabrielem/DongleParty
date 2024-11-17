@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from "zod";
 import { buildJsonSchemas } from 'fastify-zod';
 import { NetworkEnum } from '@1inch/cross-chain-sdk';
 
@@ -9,7 +9,7 @@ const oneInchTradeInput = z.object({
   dstChainId: z.nativeEnum(NetworkEnum),
   srcToken: z.string(),
   dstToken: z.string(),
-  srcAmount: z.string(),
+  amount: z.string(),
 });
 
 export type OneInchTradeInput = z.infer<typeof oneInchTradeInput>;
