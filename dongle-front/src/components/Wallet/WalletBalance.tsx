@@ -21,14 +21,15 @@ const WalletBalance = () => {
         const result = await api.getBalances({ address: wallet });
         // Filter out tokens with zero balance and sort by USD value
         const filteredBalances = result
-          .filter((token: TokenBalance) => parseFloat(token.balance) > 0)
+          .filter((token: TokenBalance) => 
+            token?.balance && parseFloat(token.balance) > 0)
           .sort((a: TokenBalance, b: TokenBalance) => {
             const aValue =
-              parseFloat(formatBalance(a.balance, a.decimals)) *
-              parseFloat(a.price);
+              parseFloat(formatBalance(a?.balance ?? '0', a?.decimals ?? 18)) *
+              parseFloat(a?.price ?? '0');
             const bValue =
-              parseFloat(formatBalance(b.balance, b.decimals)) *
-              parseFloat(b.price);
+              parseFloat(formatBalance(b?.balance ?? '0', b?.decimals ?? 18)) *
+              parseFloat(b?.price ?? '0');
             return bValue - aValue;
           });
         setBalances(filteredBalances);
@@ -50,9 +51,9 @@ const WalletBalance = () => {
   const totalValue = balances
     .reduce((sum, token) => {
       const tokenBalance = parseFloat(
-        formatBalance(token.balance, token.decimals)
+        formatBalance(token?.balance ?? '0', token?.decimals ?? 18)
       );
-      const tokenPrice = parseFloat(token.price);
+      const tokenPrice = parseFloat(token?.price ?? '0');
       return sum + tokenBalance * tokenPrice;
     }, 0)
     .toFixed(2);
@@ -100,35 +101,37 @@ const WalletBalance = () => {
         ) : (
           balances.map((token) => (
             <div
-              key={token.address}
+              key={token?.address || Math.random().toString()}
               className="p-4 hover:bg-gray-50 transition-colors"
             >
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-3">
-                  {token.logoURI ? (
+                  {token?.logoURI ? (
                     <img
                       src={token.logoURI}
-                      alt={token.symbol}
+                      alt={token?.symbol || '?'}
                       className="w-8 h-8 rounded-full"
                     />
                   ) : (
                     <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
-                      {token.symbol[0]}
+                      {token?.symbol?.[0] || '?'}
                     </div>
                   )}
                   <div>
                     <div className="font-medium text-gray-900">
-                      {token.name}
+                      {token?.name || 'Unknown Token'}
                     </div>
-                    <div className="text-sm text-gray-500">{token.symbol}</div>
+                    <div className="text-sm text-gray-500">
+                      {token?.symbol || 'N/A'}
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="font-medium text-gray-900">
                     {hideBalances
                       ? "****"
-                      : `${formatBalance(token.balance, token.decimals)} ${
-                          token.symbol
+                      : `${formatBalance(token?.balance ?? '0', token?.decimals ?? 18)} ${
+                          token?.symbol || 'N/A'
                         }`}
                   </div>
                 </div>
