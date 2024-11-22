@@ -14,7 +14,7 @@ export default function WalletPage() {
   const { token, wallet } = useAuth()
 
   const [history, setHistory] = useState<any>()
-  const [loadingHistory, setLoadingHistory] = useState(true)
+  const [_, setLoadingHistory] = useState(true)
 
   const handleCopyAddress = async () => {
     try {

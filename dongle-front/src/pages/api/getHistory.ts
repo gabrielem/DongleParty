@@ -1,30 +1,36 @@
-// getBalances.ts
+// getHistory.ts
 import { withAuth } from "@/middlewares/middleware";
 import axios from "axios";
+import { rateLimiter } from '@/utils/rateLimiter';
 
 async function getHistoryHandler(req: any, res: any) {
   try {
-
-    // arbitrum: 42161; || base: 8453
-    const {wallet} = req?.body 
+    const { wallet } = req?.body;
     if (!wallet) {
-        return res.status(400).json({ error: 'Missing required fields, wallet are required' });
+      return res.status(400).json({ 
+        error: 'Missing required fields, wallet are required' 
+      });
     }
     
     const BASE_URL = "https://api.1inch.dev/history/v2.0/history";
-    // const constructedUrl = `${BASE_URL}/${address}/events?chainId=${1}&limit=${limit}`;
     const url = `${BASE_URL}/${wallet}/events?chainId=${8453}&limit=${10}`;
     const config = {
-      headers: { "Authorization": "Bearer " + process.env.ONEINCH_API_KEY }
+      headers: { 
+        "Authorization": "Bearer " + process.env.ONEINCH_API_KEY 
+      }
     };
 
     try {
-        const response = await axios.get(url, config);
-        console.log(response.data);
-        return res.status(200).json(response.data);
+      // Wrap the API call with the rate limiter
+      const response = await rateLimiter.enqueue(async () => {
+        return axios.get(url, config);
+      });
+      
+      console.log(response.data);
+      return res.status(200).json(response.data);
     } catch (error) {
-        console.error(error);
-        throw error;
+      console.error(error);
+      throw error;
     }
     
   } catch (error) {
@@ -33,4 +39,4 @@ async function getHistoryHandler(req: any, res: any) {
   }
 }
 
-export default withAuth(getHistoryHandler)
+export default withAuth(getHistoryHandler);
